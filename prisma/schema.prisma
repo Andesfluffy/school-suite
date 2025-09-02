@@ -1,0 +1,145 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id             String   @id @default(cuid())
+  status         Status
+  name           String
+  dob            String? // ISO date
+  photoUrl       String?
+  guardian       Json?
+  stateOfOrigin  String?
+  scholarship    String?
+  financialStatus String?
+  subjects       Json?
+  medicalIssues  Json?
+  disabilities   Json?
+  sanction       String?
+  clubs          Json?
+  grades         Json?
+  cgpa           Float?
+  classOfDegree  String?
+  academic       AcademicRecord[]
+  financials     FinancialEntry[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Staff {
+  id            String  @id @default(cuid())
+  status        Status
+  name          String
+  dob           String? // ISO date
+  phone         String?
+  photoUrl      String?
+  stateOfOrigin String?
+  disabilities  Json?
+  rank          String?
+  salary        Float?
+  role          StaffRole
+  subjects      Json?
+  department    String?
+  sanction      String?
+  clubs         Json?
+  qualification String?
+  financials    FinancialEntry[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model AcademicRecord {
+  id           String  @id @default(cuid())
+  student      Student @relation(fields: [studentId], references: [id])
+  studentId    String
+  term         String
+  attendance   Float?
+  testScores   Json?
+  assignments  Json?
+  extraCredits Json?
+  examScores   Json?
+  grade        String?
+  cgpa         Float?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum EntryType {
+  income
+  expense
+}
+
+enum FinancialCategory {
+  fees
+  dues
+  medical
+  sanctions
+  grants
+  donations
+  trade_fare
+  salaries
+  benefits
+  training
+  utilities
+  maintenance
+  lab_equipment
+  software_license
+  learning_materials
+  tax
+  scholarship
+  miscellaneous
+}
+
+enum PaymentStatus {
+  paid
+  outstanding
+  waived
+}
+
+enum Status {
+  active
+  inactive
+  suspended
+  graduated
+  retired
+}
+
+enum StaffRole {
+  academic
+  admin
+}
+
+model FinancialEntry {
+  id          String            @id @default(cuid())
+  type        EntryType
+  category    FinancialCategory
+  amount      Float
+  date        String
+  description String?
+  student     Student?          @relation(fields: [studentId], references: [id])
+  studentId   String?
+  staff       Staff?            @relation(fields: [staffId], references: [id])
+  staffId     String?
+  status      PaymentStatus?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+model EventItem {
+  id          String   @id @default(cuid())
+  title       String
+  date        String
+  description String?
+  audience    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

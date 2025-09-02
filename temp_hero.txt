@@ -1,0 +1,62 @@
+"use client";
+
+import Image from "next/image";
+import { motion } from "framer-motion";
+import Link from "next/link";
+
+export default function Hero() {
+  return (
+    <section className="relative overflow-hidden rounded-2xl gradient-border bg-white p-8 md:p-12 shadow-sm min-h-[420px] flex items-center">
+      {/* Ambient blobs */}
+      <motion.div
+        aria-hidden
+        className="absolute -top-24 -left-16 w-80 h-80 rounded-full"
+        style={{ background: "radial-gradient(circle at 30% 30%, rgba(124,58,237,0.35), transparent 60%)" }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      />
+      <motion.div
+        aria-hidden
+        className="absolute -bottom-24 -right-16 w-96 h-96 rounded-full"
+        style={{ background: "radial-gradient(circle at 70% 70%, rgba(37,99,235,0.28), transparent 60%)" }}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, ease: "easeOut" }}
+      />
+      <div className="absolute inset-0 bg-grid opacity-[0.06] z-0" />
+      <div className="relative z-10 max-w-2xl space-y-6">
+        <motion.h1
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="font-display text-4xl md:text-6xl font-semibold leading-[1.05] tracking-tight"
+        >
+          Operate Your School
+          <br />
+          <span className="brand-text">Beautifully. Precisely.</span>
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
+          className="text-white/80 max-w-prose"
+        >
+          Student records, staff, academics, events, and finance — unified in a fast, elegant dashboard.
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
+          className="flex flex-wrap gap-3"
+        >
+          <Link href="/students" className="px-5 py-2.5 rounded-md brand-gradient brand-gradient-animate text-white elev-1">Get Started</Link>
+          <Link href="/financials" className="px-5 py-2.5 rounded-md subtle-border text-[var(--foreground)] hover:bg-[var(--muted)]">View Financials</Link>
+        </motion.div>
+      </div>
+      {/* Subtle accent ring */}
+      <div className="pointer-events-none absolute -right-10 -bottom-10 w-80 h-80 rounded-full z-0 accent-ring" />
+    </section>
+  );
+}
+
