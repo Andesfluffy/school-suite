@@ -117,7 +117,7 @@ export default function UserMenu() {
           <button
             type="button"
             onClick={() => {
-              signOut();
+              void signOut();
               setOpen(false);
             }}
             className="mt-2 w-full rounded-md border border-white/10 px-3 py-2 text-white/80 transition hover:bg-white/10"
