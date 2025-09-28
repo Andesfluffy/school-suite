@@ -9,6 +9,18 @@ const firebaseConfig = {
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
 };
 
+type FirebaseConfigKey = keyof typeof firebaseConfig;
+const REQUIRED_CONFIG_KEYS: FirebaseConfigKey[] = ["apiKey", "authDomain", "projectId"];
+
+function buildInitialiseConfig(): Record<string, string> {
+  return Object.entries(firebaseConfig).reduce<Record<string, string>>((acc, [key, value]) => {
+    if (typeof value === "string" && value.length > 0) {
+      acc[key] = value;
+    }
+    return acc;
+  }, {});
+}
+
 export type FirebaseAuthUser = {
   uid: string;
   displayName: string | null;
@@ -70,9 +82,9 @@ function loadScript(src: string) {
     const script = document.createElement("script");
     script.src = src;
     script.async = true;
-    script.dataset.firebaseSdk = src;
+    (script as any).dataset.firebaseSdk = src;
     script.addEventListener("load", () => {
-      script.dataset.loaded = "true";
+      (script as any).dataset.loaded = "true";
       resolve();
     });
     script.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)));
@@ -81,9 +93,10 @@ function loadScript(src: string) {
 }
 
 function validateConfig() {
-  const missing = Object.entries(firebaseConfig)
-    .filter(([, value]) => !value)
-    .map(([key]) => key);
+  const missing = REQUIRED_CONFIG_KEYS.filter((key) => {
+    const value = firebaseConfig[key];
+    return typeof value !== "string" || value.length === 0;
+  });
 
   if (missing.length) {
     throw new Error(`Missing Firebase configuration: ${missing.join(", ")}`);
@@ -102,13 +115,14 @@ export async function loadFirebaseAuth(): Promise<FirebaseBundle> {
     await loadScript(`${base}/firebase-app-compat.js`);
     await loadScript(`${base}/firebase-auth-compat.js`);
 
-    const firebase = window.firebase;
+    const firebase = (window as any).firebase as FirebaseCompat | undefined;
     if (!firebase) {
       throw new Error("Firebase SDK failed to initialise");
     }
 
     if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
+      const initialisationConfig = buildInitialiseConfig();
+      firebase.initializeApp(initialisationConfig);
     }
 
     const auth = firebase.auth();
@@ -119,4 +133,3 @@ export async function loadFirebaseAuth(): Promise<FirebaseBundle> {
 
   return bundlePromise;
 }
-
