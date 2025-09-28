@@ -12,10 +12,14 @@ import { AuthProvider } from "@/components/AuthProvider";
 import UserMenu from "@/components/UserMenu";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600"], variable: "--font-poppins" });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  variable: "--font-poppins",
+});
 
 export const metadata: Metadata = {
-  title: "Brand‑Stone School Suite",
+  title: "Brand-Stone School Suite",
   description: "Student and staff records, academics, events, and financials",
 };
 
@@ -40,36 +44,60 @@ export default function RootLayout({
             <a className="skip-link" href="#content">
               Skip to content
             </a>
+
             <header className="sticky top-0 z-40 border-b border-white/10 bg-[#070707cc] backdrop-blur">
               <div className="mx-auto grid h-16 w-full max-w-7xl grid-cols-[auto,1fr,auto] items-center gap-4 px-4 sm:px-6 lg:px-8">
-                <Link href="/" aria-label="Go to homepage" className="flex min-w-0 items-center gap-3">
+                <Link
+                  href="/"
+                  aria-label="Go to homepage"
+                  className="flex min-w-0 items-center gap-3"
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/logo.svg" alt="Brand‑Stone logo" className="h-9 w-9 rounded border border-white/10 bg-black/40 p-1" />
+                  <img
+                    src="/logo.svg"
+                    alt="Brand-Stone logo"
+                    className="h-9 w-9 rounded border border-white/10 bg-black/40 p-1"
+                  />
                   <div className="flex min-w-0 flex-col">
-                    <span className="font-display text-base font-semibold tracking-tight text-white">Brand‑Stone</span>
-                    <span className="text-xs uppercase tracking-[0.18em] text-white/60">School Suite</span>
+                    <span className="font-display text-base font-semibold tracking-tight text-white">
+                      Brand-Stone
+                    </span>
+                    <span className="text-xs uppercase tracking-[0.18em] text-white/60">
+                      School Suite
+                    </span>
                   </div>
                 </Link>
+
                 <div className="flex items-center justify-center">
                   <Nav />
                 </div>
+
                 <div className="flex items-center justify-end gap-4">
                   <div className="hidden text-right text-[11px] uppercase tracking-[0.3em] text-white/45 sm:block">
                     <span className="block">Single sign-on</span>
                     <span className="block text-white/35">Google Workspace</span>
                   </div>
                   <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.28em] text-white/55 lg:flex">
-                    <span className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_10px_rgba(217,4,41,0.8)]" aria-hidden />
+                    <span
+                      className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_10px_rgba(217,4,41,0.8)]"
+                      aria-hidden
+                    />
                     Schools only
                   </div>
                   <UserMenu />
                 </div>
               </div>
             </header>
-            <main id="content" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 animate-fade-in">
+
+            <main
+              id="content"
+              className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 animate-fade-in"
+            >
               <AppFrame>{children}</AppFrame>
             </main>
+
             <CommandPalette />
+
             <footer className="border-t border-white/10 bg-[#080808]">
               <div className="container flex flex-col gap-2 py-6 text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
                 <span>© {new Date().getFullYear()} School Suite</span>
