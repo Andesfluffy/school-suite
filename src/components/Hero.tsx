@@ -38,15 +38,19 @@ export default function Hero() {
       <div className="absolute inset-0 bg-grid opacity-[0.04] z-0" />
 
       <div className="relative z-10 max-w-2xl space-y-6">
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.28em] text-white/60">
+          <span className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_12px_rgba(217,4,41,0.8)]" aria-hidden />
+          Accredited school release
+        </div>
         <motion.h1
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="font-display text-4xl md:text-6xl font-semibold leading-[1.05] tracking-tight"
         >
-          Precision control for your
+          Precision control for the
           <br />
-          <span className="brand-text">entire school estate.</span>
+          <span className="brand-text">modern school estate.</span>
         </motion.h1>
 
         <motion.p
@@ -55,8 +59,8 @@ export default function Hero() {
           transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
           className="text-white/70 max-w-prose text-base"
         >
-          Every module — students, staff, events, finance, performance — lives inside one matte-black cockpit tuned for speed,
-          focus, and audit-ready accuracy.
+          Login once as the school, unlock every workspace — students, staff, events, finance, and performance — with a glassy
+          command centre tuned for audits, collaboration, and calm execution.
         </motion.p>
 
         <motion.div
@@ -66,18 +70,32 @@ export default function Hero() {
           className="flex flex-wrap gap-3"
         >
           <Link
-            href="/students"
-            className="px-5 py-2.5 rounded-full bg-[var(--brand)] text-white shadow-lg shadow-[rgba(217,4,41,0.35)] transition hover:bg-[var(--brand-500)]"
+            href="/auth/sign-in"
+            className="rounded-full bg-[var(--brand)] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[rgba(217,4,41,0.35)] transition hover:bg-[var(--brand-500)]"
           >
-            Launch student hub
+            School login · Google Workspace
           </Link>
           <Link
-            href="/auth/sign-in"
-            className="px-5 py-2.5 rounded-full border border-white/20 text-white/80 transition hover:border-white/40 hover:text-white"
+            href="#delivery"
+            className="rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
           >
-            Sign in with Google
+            Review implementation plan
           </Link>
         </motion.div>
+
+        <motion.ul
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
+          className="grid gap-3 pt-4 text-sm text-white/70 sm:grid-cols-2"
+        >
+          {["Unified dashboards", "Role-based audit trails", "Finance-grade exports", "Parent and staff communications"].map((point) => (
+            <li key={point} className="flex items-center gap-2">
+              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/20 bg-white/10 text-[10px] font-semibold text-white">✓</span>
+              {point}
+            </li>
+          ))}
+        </motion.ul>
       </div>
 
       <div className="relative z-10 hidden md:block">
