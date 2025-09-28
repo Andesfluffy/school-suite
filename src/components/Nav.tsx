@@ -24,7 +24,7 @@ export default function Nav() {
   return (
     <div className="relative" ref={wrapRef} onMouseLeave={() => setSpot((s) => ({ ...s, visible: false }))}>
       {/* Desktop nav */}
-      <nav className="hidden md:flex gap-5 text-sm items-center relative">
+      <nav className="hidden md:flex gap-5 text-sm items-center text-white/80 relative">
         <motion.span
           className="nav-spot"
           animate={{ left: spot.x - spot.w / 2, top: spot.y - 18, width: spot.w, opacity: spot.visible ? 1 : 0 }}
@@ -46,7 +46,7 @@ export default function Nav() {
             >
               <Link
                 href={l.href}
-                className={`transition-colors ${active ? "text-white" : "text-white/80 hover:text-white"}`}
+                className={`transition-colors ${active ? "text-white" : "hover:text-white"}`}
               >
                 {l.label}
               </Link>
@@ -60,7 +60,7 @@ export default function Nav() {
 
       {/* Mobile nav */}
       <button
-        className="md:hidden inline-flex items-center justify-center rounded-md border border-white/20 px-2.5 py-1.5 text-white"
+        className="md:hidden inline-flex items-center justify-center rounded-full border border-white/20 px-2.5 py-1.5 text-white"
         aria-label="Toggle menu"
         onClick={() => setOpen((v) => !v)}
       >
@@ -69,13 +69,17 @@ export default function Nav() {
         </svg>
       </button>
       {open ? (
-        <div className="absolute right-0 mt-2 w-48 rounded-lg border border-white/10 bg-[#0b0b0b]/95 p-2 shadow-xl md:hidden">
+        <div className="absolute right-0 mt-2 w-52 rounded-xl border border-white/10 bg-[#111]/95 p-2 shadow-xl backdrop-blur md:hidden">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className={`block px-3 py-2 rounded-md text-sm ${isActive(l.href) ? "bg-[var(--brand)] text-white" : "text-white hover:bg-white/10"}`}
+              className={`block px-3 py-2 rounded-md text-sm font-medium ${
+                isActive(l.href)
+                  ? "bg-[var(--brand)] text-white"
+                  : "text-white/90 hover:bg-white/10 hover:text-white"
+              }`}
             >
               {l.label}
             </Link>
