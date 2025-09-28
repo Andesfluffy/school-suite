@@ -38,7 +38,7 @@ export default function RootLayout({
               Skip to content
             </a>
             <header className="sticky top-0 z-40 border-b border-white/10 bg-[#070707cc] backdrop-blur">
-              <div className="container flex h-16 items-center justify-between gap-4">
+              <div className="mx-auto grid h-16 w-full max-w-7xl grid-cols-[auto,1fr,auto] items-center gap-4 px-4 sm:px-6 lg:px-8">
                 <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3 min-w-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/logo.png" alt="Brand‑Stone logo" className="h-9 w-9 rounded border border-white/10 bg-black/40 p-1" />
@@ -47,15 +47,10 @@ export default function RootLayout({
                     <span className="text-xs uppercase tracking-[0.18em] text-white/60">School Suite</span>
                   </div>
                 </Link>
-                <div className="flex flex-1 items-center justify-center">
-                  <div className="hidden md:block">
-                    <Nav />
-                  </div>
+                <div className="flex items-center justify-center">
+                  <Nav />
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="md:hidden">
-                    <Nav />
-                  </div>
+                <div className="flex items-center justify-end gap-4">
                   <div className="hidden text-right text-[11px] uppercase tracking-[0.3em] text-white/45 sm:block">
                     <span className="block">Single sign-on</span>
                     <span className="block text-white/35">Google Workspace</span>

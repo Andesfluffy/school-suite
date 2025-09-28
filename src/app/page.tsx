@@ -1,21 +1,20 @@
-import Hero from "@/components/Hero";
 import QuickLinks from "@/components/QuickLinks";
-import Showcase from "@/components/Showcase";
 import DashboardOverview from "@/components/DashboardOverview";
-import CTA from "@/components/CTA";
-import DeliveryPlan from "@/components/DeliveryPlan";
+import RequireAuth from "@/components/RequireAuth";
+import HomeWelcome from "@/components/HomeWelcome";
 
 export default function Home() {
   return (
-    <div className="font-sans">
-      <Hero />
-      <QuickLinks />
-      <div className="mt-10 gradient-line animate" />
-      <Showcase />
-      <DeliveryPlan />
-      <div className="mt-10 gradient-line animate" />
-      <DashboardOverview />
-      <CTA />
-    </div>
+    <RequireAuth
+      section="school control center"
+      blurb="Authenticate with Google Workspace to open the Brand‑Stone home workspace and live operational dashboards."
+    >
+      <div className="space-y-12">
+        <HomeWelcome />
+        <QuickLinks />
+        <div className="gradient-line animate" />
+        <DashboardOverview />
+      </div>
+    </RequireAuth>
   );
 }
