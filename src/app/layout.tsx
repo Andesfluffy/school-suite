@@ -1,5 +1,5 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Poppins } from "next/font/google";
 import Nav from "@/components/Nav";
 // ThemeMenu removed: single vibrant theme only
@@ -17,6 +17,9 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600"], variable: 
 export const metadata: Metadata = {
   title: "Brand‑Stone School Suite",
   description: "Student and staff records, academics, events, and financials",
+};
+
+export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#DC143C" },
     { media: "(prefers-color-scheme: dark)", color: "#111111" },
@@ -38,29 +41,24 @@ export default function RootLayout({
               Skip to content
             </a>
             <header className="sticky top-0 z-40 border-b border-white/10 bg-[#070707cc] backdrop-blur">
-              <div className="container flex h-16 items-center justify-between gap-4">
-                <Link href="/" aria-label="Go to homepage" className="flex items-center gap-3 min-w-0">
+              <div className="mx-auto grid h-16 w-full max-w-7xl grid-cols-[auto,1fr,auto] items-center gap-4 px-4 sm:px-6 lg:px-8">
+                <Link href="/" aria-label="Go to homepage" className="flex min-w-0 items-center gap-3">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/logo.png" alt="Brand‑Stone logo" className="h-9 w-9 rounded border border-white/10 bg-black/40 p-1" />
+                  <img src="/logo.svg" alt="Brand‑Stone logo" className="h-9 w-9 rounded border border-white/10 bg-black/40 p-1" />
                   <div className="flex min-w-0 flex-col">
                     <span className="font-display text-base font-semibold tracking-tight text-white">Brand‑Stone</span>
                     <span className="text-xs uppercase tracking-[0.18em] text-white/60">School Suite</span>
                   </div>
                 </Link>
-                <div className="flex flex-1 items-center justify-center">
-                  <div className="hidden md:block">
-                    <Nav />
-                  </div>
+                <div className="flex items-center justify-center">
+                  <Nav />
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="md:hidden">
-                    <Nav />
-                  </div>
+                <div className="flex items-center justify-end gap-4">
                   <div className="hidden text-right text-[11px] uppercase tracking-[0.3em] text-white/45 sm:block">
                     <span className="block">Single sign-on</span>
                     <span className="block text-white/35">Google Workspace</span>
                   </div>
-                  <div className="hidden lg:flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.28em] text-white/55">
+                  <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.28em] text-white/55 lg:flex">
                     <span className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_10px_rgba(217,4,41,0.8)]" aria-hidden />
                     Schools only
                   </div>
@@ -68,7 +66,7 @@ export default function RootLayout({
                 </div>
               </div>
             </header>
-            <main id="content" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
+            <main id="content" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 animate-fade-in">
               <AppFrame>{children}</AppFrame>
             </main>
             <CommandPalette />
