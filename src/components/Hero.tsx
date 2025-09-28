@@ -12,7 +12,7 @@ export default function Hero() {
   const bg = useTransform([mx, my], ([x, y]) => {
     const xPct = Math.round(x * 100);
     const yPct = Math.round(y * 100);
-    return `radial-gradient(80rem 50rem at ${xPct}% ${yPct}%, rgba(124,58,237,0.18), transparent 60%)`;
+    return `radial-gradient(80rem 50rem at ${xPct}% ${yPct}%, rgba(217,4,41,0.24), transparent 60%)`;
   });
 
   useEffect(() => {
@@ -32,10 +32,10 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden rounded-2xl subtle-border bg-[#0b0f18] text-white p-8 md:p-12 shadow-sm min-h-[560px] grid md:grid-cols-2 items-center"
+      className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a0a] text-white shadow-2xl backdrop-blur-sm p-8 md:p-12 min-h-[520px] grid md:grid-cols-2 items-center"
     >
       <motion.div aria-hidden className="absolute inset-0 z-0" style={{ background: bg }} />
-      <div className="absolute inset-0 bg-grid opacity-[0.06] z-0" />
+      <div className="absolute inset-0 bg-grid opacity-[0.04] z-0" />
 
       <div className="relative z-10 max-w-2xl space-y-6">
         <motion.h1
@@ -44,19 +44,19 @@ export default function Hero() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="font-display text-4xl md:text-6xl font-semibold leading-[1.05] tracking-tight"
         >
-          Operate Your School
+          Precision control for your
           <br />
-          <span className="brand-text">Beautifully. Precisely.</span>
+          <span className="brand-text">entire school estate.</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
-          className="text-white/80 max-w-prose"
+          className="text-white/70 max-w-prose text-base"
         >
-          Students, staff, performance, events, and finance — unified in a
-          fluid, high‑performance workspace.
+          Every module — students, staff, events, finance, performance — lives inside one matte-black cockpit tuned for speed,
+          focus, and audit-ready accuracy.
         </motion.p>
 
         <motion.div
@@ -67,15 +67,15 @@ export default function Hero() {
         >
           <Link
             href="/students"
-            className="px-5 py-2.5 rounded-md brand-gradient brand-gradient-animate text-white elev-1"
+            className="px-5 py-2.5 rounded-full bg-[var(--brand)] text-white shadow-lg shadow-[rgba(217,4,41,0.35)] transition hover:bg-[var(--brand-500)]"
           >
-            Get Started
+            Launch student hub
           </Link>
           <Link
-            href="/financials"
-            className="px-5 py-2.5 rounded-md border border-white/20 text-white/90 hover:bg-white/5"
+            href="/auth/sign-in"
+            className="px-5 py-2.5 rounded-full border border-white/20 text-white/80 transition hover:border-white/40 hover:text-white"
           >
-            View Financials
+            Sign in with Google
           </Link>
         </motion.div>
       </div>
@@ -85,7 +85,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative mx-auto max-w-md overflow-hidden rounded-xl border border-white/10 shadow-2xl photo-overlay"
+          className="relative mx-auto max-w-md overflow-hidden rounded-2xl border border-white/10 shadow-2xl photo-overlay"
         >
           <div className="absolute -top-16 -right-12 w-64 h-64 rounded-full accent-ring" />
           <Image
