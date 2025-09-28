@@ -59,7 +59,7 @@ export default function UserMenu() {
         className="inline-flex items-center gap-2 rounded-full bg-white text-black px-3.5 py-1.5 text-sm font-medium shadow-sm transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
       >
         <GoogleIcon className="h-4 w-4" />
-        Sign in with Google
+        School login
       </button>
     );
   }
@@ -83,7 +83,7 @@ export default function UserMenu() {
           {initials}
         </span>
         <span className="leading-tight">
-          <span className="block text-xs text-white/60">Signed in</span>
+          <span className="block text-xs text-white/60">School access</span>
           <span className="block max-w-[10rem] truncate font-medium">{user.name}</span>
         </span>
         <svg

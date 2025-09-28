@@ -47,28 +47,23 @@ export default function RootLayout({
                     <span className="text-xs uppercase tracking-[0.18em] text-white/60">School Suite</span>
                   </div>
                 </Link>
-                <div className="hidden lg:flex flex-1 items-center justify-center">
-                  <div className="relative w-full max-w-xl">
-                    <span className="pointer-events-none absolute inset-y-0 left-3 grid place-items-center text-white/40">
-                      <svg viewBox="0 0 20 20" aria-hidden className="h-4 w-4">
-                        <path
-                          d="M12.5 12.5 16 16"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" strokeWidth="1.5" />
-                      </svg>
-                    </span>
-                    <input
-                      placeholder="Search the suite · Press ⌘K"
-                      className="w-full rounded-full border border-white/10 bg-white/10 py-2 pl-9 pr-4 text-sm text-white placeholder-white/50 transition focus:border-[var(--brand-500)] focus:bg-black/40 focus:outline-none"
-                    />
+                <div className="flex flex-1 items-center justify-center">
+                  <div className="hidden md:block">
+                    <Nav />
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Nav />
+                <div className="flex items-center gap-4">
+                  <div className="md:hidden">
+                    <Nav />
+                  </div>
+                  <div className="hidden text-right text-[11px] uppercase tracking-[0.3em] text-white/45 sm:block">
+                    <span className="block">Single sign-on</span>
+                    <span className="block text-white/35">Google Workspace</span>
+                  </div>
+                  <div className="hidden lg:flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.28em] text-white/55">
+                    <span className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_10px_rgba(217,4,41,0.8)]" aria-hidden />
+                    Schools only
+                  </div>
                   <UserMenu />
                 </div>
               </div>

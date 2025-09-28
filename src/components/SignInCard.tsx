@@ -23,10 +23,10 @@ export default function SignInCard() {
   return (
     <div className="card space-y-6 p-6 sm:p-8">
       <div className="space-y-2">
-        <h2 className="font-display text-2xl font-semibold text-white">Secure access with Google</h2>
+        <h2 className="font-display text-2xl font-semibold text-white">Secure school login</h2>
         <p className="text-sm text-white/70">
-          Connect with your Google Workspace identity to unlock students, staff, finance, and performance dashboards in one
-          streamlined hub.
+          Connect with your Google Workspace tenancy to unlock students, staff, finance, performance, and events dashboards in
+          one matte-black cockpit.
         </p>
       </div>
 
@@ -40,7 +40,7 @@ export default function SignInCard() {
           <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs font-bold text-black">
             G
           </span>
-          {authenticating ? "Connecting to Google…" : "Sign in with Google"}
+          {authenticating ? "Connecting to Google…" : "Launch school login"}
         </button>
       ) : (
         <div className="space-y-4 rounded-lg border border-white/10 bg-black/40 p-5">

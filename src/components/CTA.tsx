@@ -4,24 +4,26 @@ export default function CTA() {
   return (
     <section className="mt-12">
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-r from-[#1a0106] via-[#2a0008] to-[#060606] p-8 md:p-12 text-white shadow-[0_20px_60px_-30px_rgba(217,4,41,0.7)]">
-        <div className="max-w-2xl space-y-3">
-          <h2 className="font-display text-[clamp(1.6rem,2.6vw,2.2rem)] font-semibold">Deploy your suite with confidence</h2>
+        <div className="max-w-3xl space-y-4">
+          <p className="text-xs uppercase tracking-[0.32em] text-white/50">Ready when you are</p>
+          <h2 className="font-display text-[clamp(1.6rem,2.6vw,2.3rem)] font-semibold">White-glove rollout for your leadership team</h2>
           <p className="text-white/70">
-            Configure cohorts, synchronise staff, and reconcile finances in minutes. A single matte-black command centre keeps
-            your team fast, focused, and audit ready.
+            We pair the refined Brand‑Stone interface with onboarding workshops, configuration playbooks, and a command runway
+            for bursary, academics, and HR. Your administrators stay in control, your data stays compliant, and the experience
+            feels premium from day zero.
           </p>
-          <div className="flex flex-wrap gap-3 pt-2">
+          <div className="flex flex-wrap gap-3 pt-1">
             <Link
-              href="/students"
+              href="/auth/sign-in"
               className="rounded-full bg-[var(--brand)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--brand-500)]"
             >
-              Explore students workspace
+              Initiate school login
             </Link>
             <Link
-              href="/financials/report"
+              href="/events"
               className="rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
             >
-              Review financial reports
+              Preview engagement tools
             </Link>
           </div>
         </div>
