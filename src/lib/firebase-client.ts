@@ -82,9 +82,9 @@ function loadScript(src: string) {
     const script = document.createElement("script");
     script.src = src;
     script.async = true;
-    script.dataset.firebaseSdk = src;
+    (script as any).dataset.firebaseSdk = src;
     script.addEventListener("load", () => {
-      script.dataset.loaded = "true";
+      (script as any).dataset.loaded = "true";
       resolve();
     });
     script.addEventListener("error", () => reject(new Error(`Failed to load ${src}`)));
@@ -115,7 +115,7 @@ export async function loadFirebaseAuth(): Promise<FirebaseBundle> {
     await loadScript(`${base}/firebase-app-compat.js`);
     await loadScript(`${base}/firebase-auth-compat.js`);
 
-    const firebase = window.firebase;
+    const firebase = (window as any).firebase as FirebaseCompat | undefined;
     if (!firebase) {
       throw new Error("Firebase SDK failed to initialise");
     }
@@ -133,4 +133,3 @@ export async function loadFirebaseAuth(): Promise<FirebaseBundle> {
 
   return bundlePromise;
 }
-
