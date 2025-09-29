@@ -1,5 +1,6 @@
 import {
   AcademicRecord,
+  EventItem,
   FinancialEntry,
   MockData,
   Student,
@@ -34,9 +35,9 @@ const generateId = () => `id_${Math.random().toString(36).slice(2, 10)}`;
 
 const now = () => new Date().toISOString();
 
-type TableItem = Student | Staff | FinancialEntry | AcademicRecord;
+type TableItem = Student | Staff | FinancialEntry | AcademicRecord | EventItem;
 
-type TableName = "students" | "staff" | "financialEntries" | "academicRecords";
+type TableName = "students" | "staff" | "financialEntries" | "academicRecords" | "events";
 
 interface TableConfig<T extends TableItem> {
   name: TableName;
@@ -183,6 +184,7 @@ interface PrismaMock {
   staff: InMemoryTable<Staff>;
   financialEntry: InMemoryTable<FinancialEntry>;
   academicRecord: InMemoryTable<AcademicRecord>;
+  eventItem: InMemoryTable<EventItem>;
 }
 
 declare global {
@@ -204,6 +206,7 @@ const createPrisma = (data: MockData): PrismaMock => ({
       return {};
     },
   }),
+  eventItem: new InMemoryTable<EventItem>(data, { name: "events" }),
 });
 
 if (!globalThis.__mockData) {
