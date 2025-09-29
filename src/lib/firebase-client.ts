@@ -57,6 +57,13 @@ export type FirebaseBundle = {
   auth: FirebaseAuth;
 };
 
+// Augment window typing so we can access window.firebase safely.
+declare global {
+  interface Window {
+    firebase?: FirebaseCompat;
+  }
+}
+
 let bundlePromise: Promise<FirebaseBundle> | null = null;
 
 function ensureClient() {
@@ -82,7 +89,7 @@ function loadScript(src: string) {
     const script = document.createElement("script");
     script.src = src;
     script.async = true;
-    script.dataset.firebaseSdk = src;
+    script.dataset.firebaseSdk = src; // resolved: keep typed dataset access
     script.addEventListener("load", () => {
       script.dataset.loaded = "true";
       resolve();
@@ -115,7 +122,7 @@ export async function loadFirebaseAuth(): Promise<FirebaseBundle> {
     await loadScript(`${base}/firebase-app-compat.js`);
     await loadScript(`${base}/firebase-auth-compat.js`);
 
-    const firebase = window.firebase;
+    const firebase = window.firebase; // resolved: use typed window.firebase
     if (!firebase) {
       throw new Error("Firebase SDK failed to initialise");
     }
@@ -133,4 +140,3 @@ export async function loadFirebaseAuth(): Promise<FirebaseBundle> {
 
   return bundlePromise;
 }
-
