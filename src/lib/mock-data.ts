@@ -94,6 +94,16 @@ export interface AcademicRecord {
   updatedAt: string;
 }
 
+export interface EventItem {
+  id: string;
+  title: string;
+  date: string;
+  description?: string | null;
+  audience?: string[] | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 const now = () => new Date().toISOString();
 
 export interface MockData {
@@ -101,6 +111,7 @@ export interface MockData {
   staff: Staff[];
   financialEntries: FinancialEntry[];
   academicRecords: AcademicRecord[];
+  events: EventItem[];
 }
 
 const today = new Date();
@@ -226,6 +237,35 @@ export const initialData: MockData = {
       attendance: 95,
       grade: "A",
       cgpa: 4.8,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+  ],
+  events: [
+    {
+      id: "evt_1",
+      title: "PTA General Assembly",
+      date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7).toISOString(),
+      description: "Quarterly briefing with guardians on academic progress and upcoming projects.",
+      audience: ["Guardians", "Teachers"],
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "evt_2",
+      title: "Science Fair Showcase",
+      date: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 21).toISOString(),
+      description: "Students present STEM innovations for community judging.",
+      audience: ["Students", "Community"],
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "evt_3",
+      title: "Teachers' Capacity Workshop",
+      date: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 12).toISOString(),
+      description: "Professional development on differentiated learning and assessment.",
+      audience: ["Teachers"],
       createdAt: now(),
       updatedAt: now(),
     },

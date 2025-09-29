@@ -95,3 +95,19 @@ export const AcademicInputSchema = z.object({
 });
 
 export type AcademicInput = z.infer<typeof AcademicInputSchema>;
+
+export const EventInputSchema = z.object({
+  title: z.string().trim().min(1, "Title is required"),
+  date: z
+    .string()
+    .trim()
+    .min(1, "Date is required")
+    .refine((value) => {
+      const timestamp = Date.parse(value);
+      return Number.isFinite(timestamp);
+    }, "Enter a valid date"),
+  description: z.string().optional().or(z.literal("")),
+  audience: z.string().optional().or(z.literal("")),
+});
+
+export type EventInput = z.infer<typeof EventInputSchema>;
