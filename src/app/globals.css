@@ -1,26 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  /* Matte black + crimson theme */
-  --background: #050505;
-  --foreground: #f4f4f5;
-  --muted: #101010;
-  --border: #1a1a1a;
+  /* Midnight indigo + crimson glow theme */
+  --background: #0b1220;
+  --foreground: #f8fafc;
+  --muted: #131c2e;
+  --border: rgba(148, 163, 184, 0.18);
 
   /* Accents */
   --scarlet: #ef233c;
   --crimson: #d90429;
   --ember: #ba041f;
-  --ashen: #171717;
+  --ashen: #15203a;
   --brand: var(--crimson);
   --brand-500: var(--scarlet);
   --brand-600: #c1021f;
   --brand-700: #8a0017;
 
-  --ink: #050505;
-  --slate-500: #9b9b9b;
-  --slate-600: #b2b2b2;
-  --slate-700: #d3d3d3;
+  --ink: #0b1220;
+  --slate-500: #8aa3d0;
+  --slate-600: #a7b8dc;
+  --slate-700: #d7e0f5;
 }
 
 @theme inline {
@@ -36,11 +36,12 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system;
-  /* Ambient crimson glow */
+  /* Ambient aurora */
   background-image:
-    radial-gradient(62rem 62rem at -10% -10%, rgba(217,4,41,0.22), transparent 70%),
-    radial-gradient(56rem 56rem at 110% -10%, rgba(239,35,60,0.16), transparent 70%),
-    radial-gradient(72rem 72rem at 50% 120%, rgba(138,0,23,0.22), transparent 70%);
+    radial-gradient(70rem 70rem at -10% -20%, rgba(59,130,246,0.22), transparent 65%),
+    radial-gradient(68rem 68rem at 110% 0%, rgba(217,4,41,0.25), transparent 70%),
+    radial-gradient(90rem 90rem at 45% 120%, rgba(56,189,248,0.18), transparent 70%),
+    linear-gradient(180deg, rgba(6,11,25,0.88), rgba(9,14,30,0.96));
   background-attachment: fixed;
 }
 
@@ -50,17 +51,17 @@ body {
 
 /* Simple card utility */
 .card {
-  background: linear-gradient(180deg, rgba(18,18,18,0.92), rgba(12,12,12,0.86));
+  background: linear-gradient(180deg, rgba(19,28,46,0.9), rgba(12,18,32,0.85));
   border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: 0 18px 60px -32px rgba(0,0,0,0.8), 0 2px 12px rgba(0,0,0,0.45);
+  border-radius: 18px;
+  box-shadow: 0 25px 70px -40px rgba(15,23,42,0.9), 0 4px 18px rgba(15,23,42,0.35);
 }
 
 /* Glass surfaces */
 .glass {
-  background: linear-gradient(180deg, rgba(8,8,8,0.72), rgba(8,8,8,0.52));
-  backdrop-filter: saturate(160%) blur(14px);
-  border: 1px solid rgba(255,255,255,0.05);
+  background: linear-gradient(180deg, rgba(19,28,46,0.68), rgba(12,18,32,0.45));
+  backdrop-filter: saturate(180%) blur(14px);
+  border: 1px solid rgba(148,163,184,0.15);
 }
 
 /* Tables */
@@ -128,8 +129,8 @@ a:hover { color: var(--brand-500); }
   width: 140px;
   height: 36px;
   border-radius: 999px;
-  background: radial-gradient(80% 220% at 50% 50%, rgba(217,4,41,0.35), transparent 70%);
-  filter: blur(10px);
+  background: radial-gradient(80% 220% at 50% 50%, rgba(217,4,41,0.32), rgba(59,130,246,0.28) 65%, transparent 80%);
+  filter: blur(12px);
   opacity: 0;
 }
 
