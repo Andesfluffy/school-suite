@@ -27,7 +27,7 @@ export default function Nav() {
   return (
     <div className="relative" ref={wrapRef} onMouseLeave={() => setSpot((s) => ({ ...s, visible: false }))}>
       {/* Desktop nav */}
-      <nav className="relative hidden items-center gap-6 text-sm font-medium text-neutral-600 md:flex">
+      <nav className="relative hidden items-center gap-7 text-sm font-semibold text-neutral-700 md:flex">
         <motion.span
           className="nav-spot"
           animate={{ left: spot.x - spot.w / 2, top: spot.y - 18, width: spot.w, opacity: spot.visible ? 1 : 0 }}
@@ -54,7 +54,7 @@ export default function Nav() {
                 {l.label}
               </Link>
               {active ? (
-                <motion.span layoutId="nav-underline" className="absolute left-0 right-0 -bottom-0.5 h-[2px] rounded-full bg-[var(--brand)]" />
+                <motion.span layoutId="nav-underline" className="absolute left-0 right-0 -bottom-1 h-[3px] rounded-full bg-[var(--brand)] shadow-[0_6px_18px_-8px_rgba(193,18,31,0.8)]" />
               ) : null}
             </div>
           );
@@ -63,7 +63,7 @@ export default function Nav() {
 
       {/* Mobile nav */}
       <button
-        className="inline-flex items-center justify-center rounded-full border border-neutral-300 bg-white px-2.5 py-1.5 text-neutral-700 shadow-sm transition hover:border-neutral-400 hover:text-neutral-900 md:hidden"
+        className="inline-flex items-center justify-center rounded-full border border-neutral-200/80 bg-white px-2.5 py-1.5 text-neutral-700 shadow-sm transition hover:border-neutral-300 hover:text-neutral-900 md:hidden"
         aria-label="Toggle menu"
         onClick={() => setOpen((v) => !v)}
       >
@@ -72,7 +72,7 @@ export default function Nav() {
         </svg>
       </button>
       {open ? (
-        <div className="absolute right-0 mt-2 w-56 rounded-xl border border-neutral-200 bg-white p-2 text-neutral-700 shadow-xl ring-1 ring-black/5 md:hidden">
+        <div className="absolute right-0 mt-2 w-56 rounded-2xl border border-neutral-200/80 bg-white/98 p-2 text-neutral-800 shadow-xl ring-1 ring-black/5 backdrop-blur-sm md:hidden">
           {links.map((l) => (
             <Link
               key={l.href}

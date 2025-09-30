@@ -44,7 +44,7 @@ export default function UserMenu() {
 
   if (loading) {
     return (
-      <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs text-neutral-600 shadow-sm">
+      <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200/80 bg-white px-3 py-1.5 text-xs text-neutral-600 shadow-sm">
         <Spinner />
         <span>Connecting…</span>
       </div>
@@ -56,7 +56,7 @@ export default function UserMenu() {
       <button
         type="button"
         onClick={() => void signInWithGoogle()}
-        className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3.5 py-1.5 text-sm font-semibold text-neutral-800 shadow-sm transition hover:border-neutral-300 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)]"
+        className="inline-flex items-center gap-2 rounded-full border border-neutral-200/80 bg-white px-3.5 py-1.5 text-sm font-semibold text-neutral-800 shadow-sm transition hover:border-neutral-300 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)]"
       >
         <GoogleIcon className="h-4 w-4" />
         School login
@@ -75,7 +75,7 @@ export default function UserMenu() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-left text-sm text-neutral-800 shadow-sm transition hover:border-neutral-300 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)]"
+        className="flex items-center gap-2 rounded-full border border-neutral-200/80 bg-white px-3 py-1.5 text-left text-sm text-neutral-800 shadow-sm transition hover:border-neutral-300 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)]"
         aria-haspopup="menu"
         aria-expanded={open}
       >
@@ -99,16 +99,16 @@ export default function UserMenu() {
       {open ? (
         <div
           role="menu"
-          className="absolute right-0 mt-2 w-60 rounded-xl border border-neutral-200 bg-white p-3 text-sm text-neutral-800 shadow-xl ring-1 ring-black/5"
+          className="absolute right-0 mt-2 w-64 rounded-2xl border border-neutral-200/80 bg-white/98 p-4 text-sm text-neutral-800 shadow-xl ring-1 ring-black/5 backdrop-blur-sm"
         >
-          <div className="mb-3 space-y-1">
-            <p className="text-xs uppercase tracking-wide text-neutral-500">Google Workspace account</p>
-            <p className="font-medium text-neutral-900">{user.name}</p>
+          <div className="mb-4 space-y-1">
+            <p className="text-xs uppercase tracking-[0.26em] text-neutral-500">Google Workspace</p>
+            <p className="font-semibold text-neutral-900">{user.name}</p>
             <p className="text-xs text-neutral-600">{user.email}</p>
           </div>
           <Link
             href="/students"
-            className="block rounded-md bg-[var(--brand)] px-3 py-2 text-center font-semibold text-white transition hover:bg-[var(--brand-500)]"
+            className="block rounded-lg bg-[var(--brand)] px-3 py-2 text-center font-semibold text-white shadow-sm transition hover:bg-[var(--brand-500)]"
             role="menuitem"
             onClick={() => setOpen(false)}
           >
@@ -120,7 +120,7 @@ export default function UserMenu() {
               void signOut();
               setOpen(false);
             }}
-            className="mt-2 w-full rounded-md border border-neutral-200 px-3 py-2 text-neutral-600 transition hover:border-neutral-300 hover:bg-neutral-100 hover:text-neutral-900"
+            className="mt-3 w-full rounded-lg border border-neutral-200/80 px-3 py-2 text-neutral-600 transition hover:border-neutral-300 hover:bg-neutral-100 hover:text-neutral-900"
             role="menuitem"
           >
             Sign out
