@@ -183,3 +183,108 @@ export function FinancialsIcon({ className, ...props }: IconProps) {
     </svg>
   );
 }
+
+export function LibraryIcon({ className, ...props }: IconProps) {
+  return (
+    <svg viewBox="0 0 32 32" aria-hidden className={className} {...props}>
+      <defs>
+        <linearGradient id={gradientId("library") } x1="8" y1="6" x2="26" y2="26" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#fbcfe8" />
+          <stop offset="1" stopColor="#ec4899" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M8 7h10c2.2 0 4 1.8 4 4v14c0-2.2-1.8-4-4-4H8V7Z"
+        fill="none"
+        stroke={`url(#${gradientId("library")})`}
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14 7h10c2.2 0 4 1.8 4 4v14c0-2.2-1.8-4-4-4H14"
+        fill="none"
+        stroke="#f8f9fa"
+        strokeOpacity="0.75"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M11 12h7M11 16h7M11 20h4"
+        stroke="#f8f9fa"
+        strokeOpacity="0.65"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function QuestionBankIcon({ className, ...props }: IconProps) {
+  return (
+    <svg viewBox="0 0 32 32" aria-hidden className={className} {...props}>
+      <defs>
+        <linearGradient id={gradientId("question-bank") } x1="8" y1="26" x2="24" y2="6" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#bfdbfe" />
+          <stop offset="1" stopColor="#2563eb" />
+        </linearGradient>
+      </defs>
+      <rect
+        x="7"
+        y="7"
+        width="18"
+        height="22"
+        rx="3"
+        fill="none"
+        stroke={`url(#${gradientId("question-bank")})`}
+        strokeWidth="1.8"
+      />
+      <path
+        d="M11 12.5c0-2.2 1.7-3.5 3.9-3.5 2 0 3.6 1.2 3.6 3 0 2.6-3.5 2.6-3.5 4.9"
+        fill="none"
+        stroke="#f8f9fa"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="15" cy="22.5" r="1" fill="#f8f9fa" />
+      <path d="M11 26h10" stroke="#f8f9fa" strokeOpacity="0.6" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function PayrollIcon({ className, ...props }: IconProps) {
+  return (
+    <svg viewBox="0 0 32 32" aria-hidden className={className} {...props}>
+      <defs>
+        <linearGradient id={gradientId("payroll") } x1="8" y1="6" x2="26" y2="24" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#a7f3d0" />
+          <stop offset="1" stopColor="#10b981" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M9 6h14l4 4v16a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z"
+        fill="none"
+        stroke={`url(#${gradientId("payroll")})`}
+        strokeWidth="1.8"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M17 6v6h6"
+        fill="none"
+        stroke="#d1fae5"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12.5 18.5c0-1.8 1.5-3.2 3.7-3.2 1.8 0 3.3 1.1 3.3 2.7 0 3-5.2 2.6-5.2 5.2"
+        fill="none"
+        stroke="#ecfdf5"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="16.2" cy="25.1" r="1" fill="#ecfdf5" />
+    </svg>
+  );
+}

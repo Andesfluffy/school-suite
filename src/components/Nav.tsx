@@ -10,8 +10,11 @@ const links = [
   { href: "/students", label: "Students" },
   { href: "/staff", label: "Staff" },
   { href: "/performance", label: "Performance" },
+  { href: "/library", label: "E-Library" },
+  { href: "/question-bank", label: "Question bank" },
   { href: "/events", label: "Events" },
   { href: "/financials", label: "Financials" },
+  { href: "/payroll", label: "Payroll" },
 ];
 
 export default function Nav() {

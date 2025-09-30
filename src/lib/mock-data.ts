@@ -22,6 +22,17 @@ export type FinancialCategory =
   | "miscellaneous";
 export type PaymentStatus = "paid" | "outstanding" | "waived";
 
+export type LibraryResourceType =
+  | "lecture_note"
+  | "scheme_of_work"
+  | "reading"
+  | "past_question"
+  | "media";
+
+export type LibraryFormat = "pdf" | "docx" | "presentation" | "spreadsheet" | "video" | "audio" | "link";
+
+export type PayrollStatus = "draft" | "processed" | "issued" | "paid";
+
 export interface Student {
   id: string;
   status: StudentStatus;
@@ -104,6 +115,62 @@ export interface EventItem {
   updatedAt: string;
 }
 
+export interface LibraryAsset {
+  id: string;
+  title: string;
+  subject: string;
+  description?: string | null;
+  level?: string | null;
+  resourceType: LibraryResourceType;
+  format: LibraryFormat;
+  fileUrl?: string | null;
+  tags?: string[] | null;
+  uploaderId?: string | null;
+  publishedAt?: string | null;
+  downloads: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface QuestionBankItem {
+  id: string;
+  title: string;
+  subject: string;
+  term?: string | null;
+  gradeLevel?: string | null;
+  examType?: string | null;
+  totalMarks?: number | null;
+  durationMinutes?: number | null;
+  scheduledDate?: string | null;
+  instructions?: string | null;
+  fileUrl?: string | null;
+  uploaderId?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PayrollBreakdownItem {
+  label: string;
+  amount: number;
+}
+
+export interface PayrollRecord {
+  id: string;
+  staffId: string;
+  month: number;
+  year: number;
+  grossPay: number;
+  allowances?: PayrollBreakdownItem[] | null;
+  deductions?: PayrollBreakdownItem[] | null;
+  netPay: number;
+  status: PayrollStatus;
+  payDate?: string | null;
+  reference?: string | null;
+  notes?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 const now = () => new Date().toISOString();
 
 export interface MockData {
@@ -112,12 +179,21 @@ export interface MockData {
   financialEntries: FinancialEntry[];
   academicRecords: AcademicRecord[];
   events: EventItem[];
+  libraryAssets: LibraryAsset[];
+  questionBankItems: QuestionBankItem[];
+  payrollRecords: PayrollRecord[];
 }
 
 const today = new Date();
 const formatMonth = (monthsAgo: number) => {
   const date = new Date(today);
   date.setMonth(date.getMonth() - monthsAgo);
+  return date.toISOString().slice(0, 10);
+};
+
+const formatDaysAgo = (daysAgo: number) => {
+  const date = new Date(today);
+  date.setDate(date.getDate() - daysAgo);
   return date.toISOString().slice(0, 10);
 };
 
@@ -266,6 +342,139 @@ export const initialData: MockData = {
       date: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 12).toISOString(),
       description: "Professional development on differentiated learning and assessment.",
       audience: ["Teachers"],
+      createdAt: now(),
+      updatedAt: now(),
+    },
+  ],
+  libraryAssets: [
+    {
+      id: "lib_1",
+      title: "SS2 Physics – Electromagnetic Induction",
+      subject: "Physics",
+      level: "SS2",
+      resourceType: "lecture_note",
+      format: "pdf",
+      description: "Comprehensive notes with diagrams covering Faraday's and Lenz's laws.",
+      fileUrl: "https://storage.schoolsuite.com/library/physics-induction.pdf",
+      tags: ["STEM", "Senior Secondary"],
+      uploaderId: "stf_1",
+      publishedAt: formatDaysAgo(12),
+      downloads: 148,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "lib_2",
+      title: "Junior WAEC Past Questions – Mathematics",
+      subject: "Mathematics",
+      level: "JS3",
+      resourceType: "past_question",
+      format: "pdf",
+      description: "Five-year compilation of Junior WAEC math questions with solutions.",
+      fileUrl: "https://storage.schoolsuite.com/library/junior-waec-maths.pdf",
+      tags: ["Revision", "Exam Prep"],
+      publishedAt: formatDaysAgo(30),
+      downloads: 305,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "lib_3",
+      title: "Literature-in-English Reading List Audio",
+      subject: "Literature",
+      level: "SS1",
+      resourceType: "media",
+      format: "audio",
+      description: "Narrated summary of key African prose texts for SS1 literature class.",
+      fileUrl: "https://storage.schoolsuite.com/library/lit-reading-list.mp3",
+      tags: ["Audio", "Literature"],
+      downloads: 92,
+      createdAt: now(),
+      updatedAt: now(),
+    },
+  ],
+  questionBankItems: [
+    {
+      id: "qb_1",
+      title: "Mid-Term Test: Algebraic Expressions",
+      subject: "Mathematics",
+      term: "2024/2025 · Term 1",
+      gradeLevel: "SS1",
+      examType: "Mid-term",
+      totalMarks: 40,
+      durationMinutes: 45,
+      scheduledDate: formatDaysAgo(-7),
+      instructions: "Attempt all questions. Show workings for full marks.",
+      fileUrl: "https://storage.schoolsuite.com/question-bank/ss1-algebra.docx",
+      uploaderId: "stf_1",
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "qb_2",
+      title: "End of Term Exam: Civic Education",
+      subject: "Civic Education",
+      term: "2024/2025 · Term 1",
+      gradeLevel: "JS2",
+      examType: "Exam",
+      totalMarks: 70,
+      durationMinutes: 60,
+      scheduledDate: formatDaysAgo(10),
+      instructions: "Section A objective, Section B theory questions.",
+      fileUrl: "https://storage.schoolsuite.com/question-bank/js2-civic.pdf",
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "qb_3",
+      title: "Continuous Assessment: Basic Science Practical",
+      subject: "Basic Science",
+      term: "2024/2025 · Term 2",
+      gradeLevel: "JS1",
+      examType: "CA",
+      totalMarks: 30,
+      durationMinutes: 40,
+      scheduledDate: formatDaysAgo(-20),
+      instructions: "Lab practical with observation logs.",
+      createdAt: now(),
+      updatedAt: now(),
+    },
+  ],
+  payrollRecords: [
+    {
+      id: "pay_1",
+      staffId: "stf_1",
+      month: today.getMonth() + 1,
+      year: today.getFullYear(),
+      grossPay: 320000,
+      allowances: [
+        { label: "Housing", amount: 40000 },
+        { label: "Transport", amount: 15000 },
+      ],
+      deductions: [
+        { label: "Tax", amount: 22000 },
+        { label: "Pension", amount: 16000 },
+      ],
+      netPay: 327000,
+      status: "issued",
+      payDate: formatDaysAgo(3),
+      reference: "SS-2024-07-0001",
+      notes: "Signed copy awaiting pickup.",
+      createdAt: now(),
+      updatedAt: now(),
+    },
+    {
+      id: "pay_2",
+      staffId: "stf_2",
+      month: today.getMonth(),
+      year: today.getFullYear(),
+      grossPay: 280000,
+      allowances: [{ label: "Responsibility", amount: 25000 }],
+      deductions: [{ label: "Tax", amount: 18000 }],
+      netPay: 287000,
+      status: "paid",
+      payDate: formatDaysAgo(30),
+      reference: "SS-2024-06-0008",
       createdAt: now(),
       updatedAt: now(),
     },

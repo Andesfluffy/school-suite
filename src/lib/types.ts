@@ -99,3 +99,64 @@ export interface EventItem {
   audience?: ("students" | "staff" | "all")[];
 }
 
+export type LibraryResourceType =
+  | "lecture_note"
+  | "scheme_of_work"
+  | "reading"
+  | "past_question"
+  | "media";
+
+export type LibraryFormat = "pdf" | "docx" | "presentation" | "spreadsheet" | "video" | "audio" | "link";
+
+export interface LibraryAsset {
+  id: string;
+  title: string;
+  subject: string;
+  description?: string;
+  level?: string;
+  resourceType: LibraryResourceType;
+  format: LibraryFormat;
+  fileUrl?: string;
+  tags?: string[];
+  uploaderId?: string;
+  publishedAt?: string;
+  downloads: number;
+}
+
+export interface QuestionBankItem {
+  id: string;
+  title: string;
+  subject: string;
+  term?: string;
+  gradeLevel?: string;
+  examType?: string;
+  totalMarks?: number;
+  durationMinutes?: number;
+  scheduledDate?: string;
+  instructions?: string;
+  fileUrl?: string;
+  uploaderId?: string;
+}
+
+export type PayrollStatus = "draft" | "processed" | "issued" | "paid";
+
+export interface PayrollBreakdownItem {
+  label: string;
+  amount: number;
+}
+
+export interface PayrollRecord {
+  id: string;
+  staffId: string;
+  month: number;
+  year: number;
+  grossPay: number;
+  allowances?: PayrollBreakdownItem[];
+  deductions?: PayrollBreakdownItem[];
+  netPay: number;
+  status: PayrollStatus;
+  payDate?: string;
+  reference?: string;
+  notes?: string;
+}
+
