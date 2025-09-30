@@ -22,7 +22,7 @@ function GoogleIcon(props: React.SVGProps<SVGSVGElement>) {
 }
 
 function Spinner() {
-  return <span className="h-4 w-4 animate-spin rounded-full border border-transparent border-t-white" />;
+  return <span className="h-4 w-4 animate-spin rounded-full border border-transparent border-t-[var(--brand)]" />;
 }
 
 export default function UserMenu() {
@@ -44,7 +44,7 @@ export default function UserMenu() {
 
   if (loading) {
     return (
-      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/70">
+      <div className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs text-neutral-600 shadow-sm">
         <Spinner />
         <span>Connecting…</span>
       </div>
@@ -56,7 +56,7 @@ export default function UserMenu() {
       <button
         type="button"
         onClick={() => void signInWithGoogle()}
-        className="inline-flex items-center gap-2 rounded-full bg-white text-black px-3.5 py-1.5 text-sm font-medium shadow-sm transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
+        className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3.5 py-1.5 text-sm font-semibold text-neutral-800 shadow-sm transition hover:border-neutral-300 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)]"
       >
         <GoogleIcon className="h-4 w-4" />
         School login
@@ -75,19 +75,19 @@ export default function UserMenu() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-left text-sm text-white/90 transition hover:border-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-500)]"
+        className="flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-left text-sm text-neutral-800 shadow-sm transition hover:border-neutral-300 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)]"
         aria-haspopup="menu"
         aria-expanded={open}
       >
-        <span className="grid h-7 w-7 place-items-center rounded-full bg-[var(--brand)] text-xs font-semibold uppercase text-white">
+        <span className="grid h-7 w-7 place-items-center rounded-full bg-[var(--brand)] text-xs font-semibold uppercase text-white shadow-sm">
           {initials}
         </span>
         <span className="leading-tight">
-          <span className="block text-xs text-white/60">School access</span>
-          <span className="block max-w-[10rem] truncate font-medium">{user.name}</span>
+          <span className="block text-xs uppercase tracking-wide text-neutral-500">School access</span>
+          <span className="block max-w-[10rem] truncate font-medium text-neutral-900">{user.name}</span>
         </span>
         <svg
-          className={`h-4 w-4 shrink-0 transition ${open ? "rotate-180" : "rotate-0"}`}
+          className={`h-4 w-4 shrink-0 text-neutral-500 transition ${open ? "rotate-180" : "rotate-0"}`}
           viewBox="0 0 20 20"
           fill="none"
           aria-hidden
@@ -99,12 +99,12 @@ export default function UserMenu() {
       {open ? (
         <div
           role="menu"
-          className="absolute right-0 mt-2 w-56 rounded-lg border border-white/10 bg-[#111]/95 p-3 text-sm shadow-xl backdrop-blur"
+          className="absolute right-0 mt-2 w-60 rounded-xl border border-neutral-200 bg-white p-3 text-sm text-neutral-800 shadow-xl ring-1 ring-black/5"
         >
           <div className="mb-3 space-y-1">
-            <p className="text-xs uppercase tracking-wide text-white/50">Google Workspace account</p>
-            <p className="font-medium text-white">{user.name}</p>
-            <p className="text-xs text-white/60">{user.email}</p>
+            <p className="text-xs uppercase tracking-wide text-neutral-500">Google Workspace account</p>
+            <p className="font-medium text-neutral-900">{user.name}</p>
+            <p className="text-xs text-neutral-600">{user.email}</p>
           </div>
           <Link
             href="/students"
@@ -120,7 +120,7 @@ export default function UserMenu() {
               void signOut();
               setOpen(false);
             }}
-            className="mt-2 w-full rounded-md border border-white/10 px-3 py-2 text-white/80 transition hover:bg-white/10"
+            className="mt-2 w-full rounded-md border border-neutral-200 px-3 py-2 text-neutral-600 transition hover:border-neutral-300 hover:bg-neutral-100 hover:text-neutral-900"
             role="menuitem"
           >
             Sign out

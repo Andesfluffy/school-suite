@@ -27,7 +27,7 @@ export default function Nav() {
   return (
     <div className="relative" ref={wrapRef} onMouseLeave={() => setSpot((s) => ({ ...s, visible: false }))}>
       {/* Desktop nav */}
-      <nav className="hidden md:flex gap-5 text-sm items-center text-white/80 relative">
+      <nav className="relative hidden items-center gap-6 text-sm font-medium text-neutral-600 md:flex">
         <motion.span
           className="nav-spot"
           animate={{ left: spot.x - spot.w / 2, top: spot.y - 18, width: spot.w, opacity: spot.visible ? 1 : 0 }}
@@ -49,12 +49,12 @@ export default function Nav() {
             >
               <Link
                 href={l.href}
-                className={`transition-colors ${active ? "text-white" : "hover:text-white"}`}
+                className={`transition-colors ${active ? "text-[var(--brand)]" : "hover:text-neutral-900"}`}
               >
                 {l.label}
               </Link>
               {active ? (
-                <motion.span layoutId="nav-underline" className="absolute left-0 right-0 -bottom-0.5 h-[2px] rounded-full underline-shimmer" />
+                <motion.span layoutId="nav-underline" className="absolute left-0 right-0 -bottom-0.5 h-[2px] rounded-full bg-[var(--brand)]" />
               ) : null}
             </div>
           );
@@ -63,7 +63,7 @@ export default function Nav() {
 
       {/* Mobile nav */}
       <button
-        className="md:hidden inline-flex items-center justify-center rounded-full border border-white/20 px-2.5 py-1.5 text-white"
+        className="inline-flex items-center justify-center rounded-full border border-neutral-300 bg-white px-2.5 py-1.5 text-neutral-700 shadow-sm transition hover:border-neutral-400 hover:text-neutral-900 md:hidden"
         aria-label="Toggle menu"
         onClick={() => setOpen((v) => !v)}
       >
@@ -72,7 +72,7 @@ export default function Nav() {
         </svg>
       </button>
       {open ? (
-        <div className="absolute right-0 mt-2 w-52 rounded-xl border border-white/10 bg-[#111]/95 p-2 shadow-xl backdrop-blur md:hidden">
+        <div className="absolute right-0 mt-2 w-56 rounded-xl border border-neutral-200 bg-white p-2 text-neutral-700 shadow-xl ring-1 ring-black/5 md:hidden">
           {links.map((l) => (
             <Link
               key={l.href}
@@ -80,8 +80,8 @@ export default function Nav() {
               onClick={() => setOpen(false)}
               className={`block px-3 py-2 rounded-md text-sm font-medium ${
                 isActive(l.href)
-                  ? "bg-[var(--brand)] text-white"
-                  : "text-white/90 hover:bg-white/10 hover:text-white"
+                  ? "bg-[var(--brand)] text-white shadow-sm"
+                  : "hover:bg-neutral-100 hover:text-neutral-900"
               }`}
             >
               {l.label}
