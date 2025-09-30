@@ -117,6 +117,31 @@ enum StaffRole {
   admin
 }
 
+enum LibraryResourceType {
+  lecture_note
+  scheme_of_work
+  reading
+  past_question
+  media
+}
+
+enum LibraryFormat {
+  pdf
+  docx
+  presentation
+  spreadsheet
+  video
+  audio
+  link
+}
+
+enum PayrollStatus {
+  draft
+  processed
+  issued
+  paid
+}
+
 model FinancialEntry {
   id          String            @id @default(cuid())
   type        EntryType
@@ -141,4 +166,58 @@ model EventItem {
   audience    Json?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model LibraryAsset {
+  id          String               @id @default(cuid())
+  title       String
+  subject     String
+  description String?
+  level       String?
+  resourceType LibraryResourceType
+  format      LibraryFormat
+  fileUrl     String?
+  tags        Json?
+  uploader    Staff?               @relation(fields: [uploaderId], references: [id])
+  uploaderId  String?
+  publishedAt String?
+  downloads   Int                  @default(0)
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+}
+
+model QuestionBankItem {
+  id             String   @id @default(cuid())
+  title          String
+  subject        String
+  term           String?
+  gradeLevel     String?
+  examType       String?
+  totalMarks     Int?
+  durationMinutes Int?
+  scheduledDate  String?
+  instructions   String?
+  fileUrl        String?
+  uploader       Staff?   @relation(fields: [uploaderId], references: [id])
+  uploaderId     String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model PayrollRecord {
+  id          String         @id @default(cuid())
+  staff       Staff          @relation(fields: [staffId], references: [id])
+  staffId     String
+  month       Int
+  year        Int
+  grossPay    Float
+  allowances  Json?
+  deductions  Json?
+  netPay      Float
+  status      PayrollStatus
+  payDate     String?
+  reference   String?
+  notes       String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 }

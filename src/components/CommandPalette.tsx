@@ -12,11 +12,17 @@ const ITEMS: Item[] = [
   { title: "Staff", href: "/staff", keywords: "staff roles salaries" },
   { title: "Add Staff", href: "/staff/new", keywords: "create staff" },
   { title: "Performance", href: "/performance", keywords: "attendance grades cgpa" },
+  { title: "E-Library", href: "/library", keywords: "notes media resources" },
+  { title: "Upload Library Asset", href: "/library/new", keywords: "upload material" },
+  { title: "Question Bank", href: "/question-bank", keywords: "assessments exams" },
+  { title: "Add Question Set", href: "/question-bank/new", keywords: "create exam" },
   { title: "Events", href: "/events", keywords: "calendar" },
   { title: "Financials", href: "/financials", keywords: "income expenses" },
   { title: "Income", href: "/financials/income", keywords: "fees dues medicals sanctions" },
   { title: "Expenses", href: "/financials/expenses", keywords: "salaries utilities maintenance" },
   { title: "Financial Report", href: "/financials/report", keywords: "report print csv" },
+  { title: "Payroll", href: "/payroll", keywords: "payslip allowances deductions" },
+  { title: "Generate Payslip", href: "/payroll/new", keywords: "create payroll" },
 ];
 
 function score(q: string, it: Item) {

@@ -1,7 +1,16 @@
 import Link from "next/link";
 import type { JSX } from "react";
 import Reveal from "@/components/Reveal";
-import { EventsIcon, FinancialsIcon, PerformanceIcon, StaffIcon, StudentsIcon } from "@/components/icons";
+import {
+  EventsIcon,
+  FinancialsIcon,
+  LibraryIcon,
+  PayrollIcon,
+  PerformanceIcon,
+  QuestionBankIcon,
+  StaffIcon,
+  StudentsIcon,
+} from "@/components/icons";
 
 type LinkConfig = {
   href: string;
@@ -34,6 +43,20 @@ const links: LinkConfig[] = [
     accent: "from-[#071523] via-[#0c2133] to-[#02060a]",
   },
   {
+    href: "/library",
+    title: "E-Library",
+    desc: "Lecture notes, schemes of work, media, and past questions",
+    icon: (props) => <LibraryIcon className={props.className} />,
+    accent: "from-[#280820] via-[#3a0c2d] to-[#0f0209]",
+  },
+  {
+    href: "/question-bank",
+    title: "Question bank",
+    desc: "Stage mid-terms, exams, and CA scripts before release",
+    icon: (props) => <QuestionBankIcon className={props.className} />,
+    accent: "from-[#051530] via-[#0a2250] to-[#01060d]",
+  },
+  {
     href: "/events",
     title: "Events",
     desc: "Ceremonies, fixtures, notices, and community moments",
@@ -46,6 +69,13 @@ const links: LinkConfig[] = [
     desc: "Revenue, expenses, cashflow, and audit-ready ledgers",
     icon: (props) => <FinancialsIcon className={props.className} />,
     accent: "from-[#03271b] via-[#06402b] to-[#010b07]",
+  },
+  {
+    href: "/payroll",
+    title: "Payroll",
+    desc: "Generate payslips, track allowances, and confirm payout status",
+    icon: (props) => <PayrollIcon className={props.className} />,
+    accent: "from-[#022415] via-[#0b3b24] to-[#010a05]",
   },
 ];
 

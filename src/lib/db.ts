@@ -2,7 +2,10 @@ import {
   AcademicRecord,
   EventItem,
   FinancialEntry,
+  LibraryAsset,
   MockData,
+  PayrollRecord,
+  QuestionBankItem,
   Student,
   Staff,
   initialData,
@@ -35,9 +38,25 @@ const generateId = () => `id_${Math.random().toString(36).slice(2, 10)}`;
 
 const now = () => new Date().toISOString();
 
-type TableItem = Student | Staff | FinancialEntry | AcademicRecord | EventItem;
+type TableItem =
+  | Student
+  | Staff
+  | FinancialEntry
+  | AcademicRecord
+  | EventItem
+  | LibraryAsset
+  | QuestionBankItem
+  | PayrollRecord;
 
-type TableName = "students" | "staff" | "financialEntries" | "academicRecords" | "events";
+type TableName =
+  | "students"
+  | "staff"
+  | "financialEntries"
+  | "academicRecords"
+  | "events"
+  | "libraryAssets"
+  | "questionBankItems"
+  | "payrollRecords";
 
 interface TableConfig<T extends TableItem> {
   name: TableName;
@@ -185,6 +204,9 @@ interface PrismaMock {
   financialEntry: InMemoryTable<FinancialEntry>;
   academicRecord: InMemoryTable<AcademicRecord>;
   eventItem: InMemoryTable<EventItem>;
+  libraryAsset: InMemoryTable<LibraryAsset>;
+  questionBankItem: InMemoryTable<QuestionBankItem>;
+  payrollRecord: InMemoryTable<PayrollRecord>;
 }
 
 declare global {
@@ -207,6 +229,40 @@ const createPrisma = (data: MockData): PrismaMock => ({
     },
   }),
   eventItem: new InMemoryTable<EventItem>(data, { name: "events" }),
+  libraryAsset: new InMemoryTable<LibraryAsset>(data, {
+    name: "libraryAssets",
+    getRelated: (row, include) => {
+      if (include?.uploader) {
+        const uploader = row.uploaderId
+          ? data.staff.find((staff) => staff.id === row.uploaderId) || null
+          : null;
+        return { uploader: clone(uploader) };
+      }
+      return {};
+    },
+  }),
+  questionBankItem: new InMemoryTable<QuestionBankItem>(data, {
+    name: "questionBankItems",
+    getRelated: (row, include) => {
+      if (include?.uploader) {
+        const uploader = row.uploaderId
+          ? data.staff.find((staff) => staff.id === row.uploaderId) || null
+          : null;
+        return { uploader: clone(uploader) };
+      }
+      return {};
+    },
+  }),
+  payrollRecord: new InMemoryTable<PayrollRecord>(data, {
+    name: "payrollRecords",
+    getRelated: (row, include) => {
+      if (include?.staff) {
+        const staff = data.staff.find((member) => member.id === row.staffId) || null;
+        return { staff: clone(staff) };
+      }
+      return {};
+    },
+  }),
 });
 
 if (!globalThis.__mockData) {
