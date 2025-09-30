@@ -27,7 +27,7 @@ export default function Nav() {
   return (
     <div className="relative" ref={wrapRef} onMouseLeave={() => setSpot((s) => ({ ...s, visible: false }))}>
       {/* Desktop nav */}
-      <nav className="relative hidden items-center gap-7 text-sm font-semibold text-neutral-700 md:flex">
+      <nav className="relative hidden items-center gap-7 text-sm font-semibold text-neutral-600 md:flex">
         <motion.span
           className="nav-spot"
           animate={{ left: spot.x - spot.w / 2, top: spot.y - 18, width: spot.w, opacity: spot.visible ? 1 : 0 }}
