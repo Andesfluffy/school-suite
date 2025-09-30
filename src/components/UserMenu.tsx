@@ -44,7 +44,7 @@ export default function UserMenu() {
 
   if (loading) {
     return (
-      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/70">
+      <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs text-white/80 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.8)]">
         <Spinner />
         <span>Connecting…</span>
       </div>
@@ -56,7 +56,7 @@ export default function UserMenu() {
       <button
         type="button"
         onClick={() => void signInWithGoogle()}
-        className="inline-flex items-center gap-2 rounded-full bg-white text-black px-3.5 py-1.5 text-sm font-medium shadow-sm transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
+        className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-sm font-semibold text-slate-900 shadow-[0_15px_35px_-24px_rgba(15,23,42,0.65)] transition hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(59,130,246,0.65)]"
       >
         <GoogleIcon className="h-4 w-4" />
         School login
@@ -75,7 +75,7 @@ export default function UserMenu() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-left text-sm text-white/90 transition hover:border-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-500)]"
+        className="flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-left text-sm text-white/90 shadow-[0_12px_38px_-28px_rgba(15,23,42,0.9)] transition hover:border-white/25 hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(59,130,246,0.65)]"
         aria-haspopup="menu"
         aria-expanded={open}
       >
@@ -99,12 +99,12 @@ export default function UserMenu() {
       {open ? (
         <div
           role="menu"
-          className="absolute right-0 mt-2 w-56 rounded-lg border border-white/10 bg-[#111]/95 p-3 text-sm shadow-xl backdrop-blur"
+          className="absolute right-0 mt-2 w-56 rounded-xl border border-white/15 bg-[#0f172ae6] p-3 text-sm shadow-[0_35px_60px_-28px_rgba(15,23,42,0.95)] backdrop-blur"
         >
           <div className="mb-3 space-y-1">
-            <p className="text-xs uppercase tracking-wide text-white/50">Google Workspace account</p>
+            <p className="text-xs uppercase tracking-wide text-white/60">Google Workspace account</p>
             <p className="font-medium text-white">{user.name}</p>
-            <p className="text-xs text-white/60">{user.email}</p>
+            <p className="text-xs text-white/70">{user.email}</p>
           </div>
           <Link
             href="/students"
@@ -120,7 +120,7 @@ export default function UserMenu() {
               void signOut();
               setOpen(false);
             }}
-            className="mt-2 w-full rounded-md border border-white/10 px-3 py-2 text-white/80 transition hover:bg-white/10"
+            className="mt-2 w-full rounded-md border border-white/15 px-3 py-2 text-white/80 transition hover:bg-white/15"
             role="menuitem"
           >
             Sign out

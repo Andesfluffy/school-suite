@@ -63,7 +63,7 @@ export default function Nav() {
 
       {/* Mobile nav */}
       <button
-        className="md:hidden inline-flex items-center justify-center rounded-full border border-white/20 px-2.5 py-1.5 text-white"
+        className="md:hidden inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-2.5 py-1.5 text-white shadow-[0_10px_30px_-24px_rgba(15,23,42,0.8)] transition hover:border-white/30 hover:bg-white/15"
         aria-label="Toggle menu"
         onClick={() => setOpen((v) => !v)}
       >
@@ -72,7 +72,7 @@ export default function Nav() {
         </svg>
       </button>
       {open ? (
-        <div className="absolute right-0 mt-2 w-52 rounded-xl border border-white/10 bg-[#111]/95 p-2 shadow-xl backdrop-blur md:hidden">
+        <div className="absolute right-0 mt-2 w-52 rounded-xl border border-white/15 bg-[#0f172ae6] p-2 shadow-[0_30px_60px_-28px_rgba(15,23,42,0.95)] backdrop-blur md:hidden">
           {links.map((l) => (
             <Link
               key={l.href}
