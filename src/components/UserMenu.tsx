@@ -89,14 +89,15 @@ export default function UserMenu() {
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-left text-sm text-white/90 shadow-[0_12px_38px_-28px_rgba(15,23,42,0.9)] transition hover:border-white/25 hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(59,130,246,0.65)]"
+        className="flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-2.5 py-1.5 text-left text-sm text-white/90 shadow-[0_12px_38px_-28px_rgba(15,23,42,0.9)] transition hover:border-white/25 hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(59,130,246,0.65)] sm:px-3"
         aria-haspopup="menu"
         aria-expanded={open}
+        aria-label={open ? "Close user menu" : "Open user menu"}
       >
         <span className="grid h-7 w-7 place-items-center rounded-full bg-[var(--brand)] text-xs font-semibold uppercase text-white">
           {initials}
         </span>
-        <span className="leading-tight">
+        <span className="hidden leading-tight sm:block">
           <span className="block text-xs text-white/60">School access</span>
           <span className="block max-w-[10rem] truncate font-medium">{user.name}</span>
         </span>
