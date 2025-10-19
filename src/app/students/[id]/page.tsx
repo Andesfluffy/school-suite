@@ -15,7 +15,7 @@ export default async function StudentDetail({ params }: { params: { id: string }
     <section className="space-y-4">
       <div className="card p-5 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Avatar name={student.name} src={student.photoUrl as string | undefined} size={72} />
+          <Avatar name={student.name} src={student.photoUrl ?? undefined} size={72} />
           <div>
             <div className="text-xl font-semibold">{student.name}</div>
             <div className="mt-1">
@@ -39,12 +39,12 @@ export default async function StudentDetail({ params }: { params: { id: string }
       <div className="card p-5 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-sm">
         <div><span className="text-gray-500">Status:</span> {student.status}</div>
         <div><span className="text-gray-500">DOB:</span> {student.dob || "—"}</div>
-        <div><span className="text-gray-500">Guardian:</span> {(student.guardian as any)?.name || "—"}</div>
+        <div><span className="text-gray-500">Guardian:</span> {student.guardian?.name || "—"}</div>
         <div><span className="text-gray-500">State of Origin:</span> {student.stateOfOrigin || "—"}</div>
         <div><span className="text-gray-500">Scholarship:</span> {student.scholarship || "—"}</div>
         <div><span className="text-gray-500">CGPA:</span> {student.cgpa ?? "—"}</div>
-        <div><span className="text-gray-500">Clubs:</span> {(student.clubs as string[] | null)?.join(", ") || "—"}</div>
-        <div><span className="text-gray-500">Medical Issues:</span> {(student.medicalIssues as string[] | null)?.join(", ") || "—"}</div>
+        <div><span className="text-gray-500">Clubs:</span> {student.clubs?.join(", ") || "—"}</div>
+        <div><span className="text-gray-500">Medical Issues:</span> {student.medicalIssues?.join(", ") || "—"}</div>
       </div>
     </section>
   );

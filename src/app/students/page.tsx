@@ -68,7 +68,7 @@ export default async function StudentsPage() {
           Add student record
         </Link>
       </div>
-      <StudentListClient students={students as any} />
+      <StudentListClient students={students} />
     </section>
   );
 }

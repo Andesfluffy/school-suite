@@ -13,7 +13,7 @@ export default async function StaffDetail({ params }: { params: { id: string } }
     <section className="space-y-4">
       <div className="card p-5 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Avatar name={staff.name} src={staff.photoUrl as string | undefined} size={72} />
+          <Avatar name={staff.name} src={staff.photoUrl ?? undefined} size={72} />
           <div>
             <div className="text-xl font-semibold">{staff.name}</div>
             <div className="mt-1 flex gap-2">
@@ -43,7 +43,7 @@ export default async function StaffDetail({ params }: { params: { id: string } }
         <div><span className="text-gray-500">Department:</span> {staff.department || "—"}</div>
         <div><span className="text-gray-500">Rank:</span> {staff.rank || "—"}</div>
         <div><span className="text-gray-500">Salary:</span> {staff.salary ?? "—"}</div>
-        <div><span className="text-gray-500">Clubs:</span> {(staff.clubs as string[] | null)?.join(", ") || "—"}</div>
+        <div><span className="text-gray-500">Clubs:</span> {staff.clubs?.join(", ") || "—"}</div>
       </div>
     </section>
   );

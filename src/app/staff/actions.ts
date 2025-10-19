@@ -33,7 +33,7 @@ export async function createStaff(formData: FormData) {
   const created = await prisma.staff.create({
     data: {
       name,
-      status: status as any,
+      status,
       dob: dob || undefined,
       phone: phone || undefined,
       photoUrl: photoUrl || undefined,
@@ -41,7 +41,7 @@ export async function createStaff(formData: FormData) {
       disabilities: disabilities ? disabilities.split(",").map((s) => s.trim()).filter(Boolean) : undefined,
       rank: rank || undefined,
       salary: salary ? Number(salary) : undefined,
-      role: role as any,
+      role,
       subjects: subjects ? subjects.split(",").map((s) => s.trim()).filter(Boolean) : undefined,
       department: department || undefined,
       sanction: sanction || undefined,
@@ -90,7 +90,7 @@ export async function updateStaff(id: string, formData: FormData) {
     where: { id },
     data: {
       name,
-      status: status as any,
+      status,
       dob: dob || undefined,
       phone: phone || undefined,
       photoUrl: photoUrl || undefined,
@@ -98,7 +98,7 @@ export async function updateStaff(id: string, formData: FormData) {
       disabilities: disabilities ? disabilities.split(",").map((s) => s.trim()).filter(Boolean) : null,
       rank: rank || undefined,
       salary: salary ? Number(salary) : null,
-      role: role as any,
+      role,
       subjects: subjects ? subjects.split(",").map((s) => s.trim()).filter(Boolean) : null,
       department: department || undefined,
       sanction: sanction || undefined,

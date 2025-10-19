@@ -10,12 +10,14 @@ import Textarea from "@/components/ui/Textarea";
 import { useToast } from "@/components/ToastProvider";
 import type { Option } from "@/components/LibraryAssetForm";
 
-type Action = (formData: FormData) => Promise<{
+type ActionResult = {
   success: boolean;
   id?: string;
   error?: string;
   errors?: Record<string, string[]>;
-}>;
+};
+
+type Action = (formData: FormData) => Promise<ActionResult>;
 
 const monthNames = [
   "January",
@@ -43,15 +45,18 @@ export default function PayrollForm({
 }) {
   const router = useRouter();
   const toast = useToast();
-  const [state, formAction, pending] = useActionState(async (_prev: any, formData: FormData) => {
-    const res = await action(formData);
-    if (res.success) {
-      toast.addToast({ title: "Payslip generated", description: "Payroll record saved", variant: "success" });
-      router.push(redirectTo);
-      router.refresh();
-    }
-    return res;
-  }, null as any);
+  const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(
+    async (_prev, formData: FormData) => {
+      const res = await action(formData);
+      if (res.success) {
+        toast.addToast({ title: "Payslip generated", description: "Payroll record saved", variant: "success" });
+        router.push(redirectTo);
+        router.refresh();
+      }
+      return res;
+    },
+    null
+  );
 
   return (
     <form action={formAction} className="grid grid-cols-1 gap-4">

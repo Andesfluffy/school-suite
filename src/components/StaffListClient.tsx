@@ -5,42 +5,41 @@ import Link from "next/link";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import Badge from "@/components/ui/Badge";
+import type { Staff } from "@/lib/mock-data";
 
-type StaffRecord = {
-  id: string;
-  name: string;
-  status: string;
-  role: string;
-  dob?: string | null;
-  phone?: string | null;
-  stateOfOrigin?: string | null;
-  disabilities?: unknown;
-  rank?: string | null;
-  salary?: number | null;
-  subjects?: unknown;
-  department?: string | null;
-  sanction?: string | null;
-  clubs?: unknown;
-  qualification?: string | null;
-};
+type StaffRecord = Pick<
+  Staff,
+  | "id"
+  | "name"
+  | "status"
+  | "role"
+  | "dob"
+  | "phone"
+  | "stateOfOrigin"
+  | "disabilities"
+  | "rank"
+  | "salary"
+  | "subjects"
+  | "department"
+  | "sanction"
+  | "clubs"
+  | "qualification"
+>;
 
 type ViewMode = "cards" | "table";
 
-function normaliseArray(value: unknown) {
-  if (!value) return [] as string[];
+function normaliseArray(value: string[] | null | undefined | string): string[] {
+  if (!value) return [];
   if (Array.isArray(value)) {
     return value.map((entry) => (typeof entry === "string" ? entry.trim() : "")).filter(Boolean);
   }
-  if (typeof value === "string") {
-    return value
-      .split(",")
-      .map((entry) => entry.trim())
-      .filter(Boolean);
-  }
-  return [] as string[];
+  return value
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter(Boolean);
 }
 
-function formatStatusTone(status: string) {
+function formatStatusTone(status: StaffRecord["status"]) {
   switch (status) {
     case "active":
       return "green" as const;

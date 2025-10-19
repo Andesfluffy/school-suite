@@ -8,7 +8,12 @@ export default async function EditStudent({ params }: { params: { id: string } }
   return (
     <section className="space-y-6 max-w-3xl">
       <h1 className="text-xl font-semibold">Edit Student</h1>
-      <StudentForm action={updateStudent.bind(null, student.id)} initial={student as any} redirectTo={`/students/${student.id}`} submitLabel="Update" />
+      <StudentForm
+        action={updateStudent.bind(null, student.id)}
+        initial={student}
+        redirectTo={`/students/${student.id}`}
+        submitLabel="Update"
+      />
     </section>
   );
 }

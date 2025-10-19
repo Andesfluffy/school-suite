@@ -128,7 +128,7 @@ export const LibraryAssetInputSchema = z.object({
     try {
       new URL(value);
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }, "Enter a valid URL"),
@@ -182,7 +182,7 @@ export const QuestionBankInputSchema = z.object({
     try {
       new URL(value);
       return true;
-    } catch (error) {
+    } catch {
       return false;
     }
   }, "Enter a valid URL"),

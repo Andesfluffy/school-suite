@@ -29,7 +29,7 @@ export async function createStudent(formData: FormData) {
   const created = await prisma.student.create({
     data: {
       name,
-      status: status as any,
+      status,
       dob: dob || undefined,
       photoUrl: photoUrl || undefined,
       guardian: guardianName ? { name: guardianName, phone: guardianPhone || undefined } : undefined,
@@ -77,7 +77,7 @@ export async function updateStudent(id: string, formData: FormData) {
     where: { id },
     data: {
       name,
-      status: status as any,
+      status,
       dob: dob || undefined,
       photoUrl: photoUrl || undefined,
       guardian: guardianName ? { name: guardianName, phone: guardianPhone || undefined } : null,

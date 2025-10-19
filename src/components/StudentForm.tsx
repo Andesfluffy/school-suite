@@ -7,31 +7,44 @@ import Select from "@/components/ui/Select";
 import Label from "@/components/ui/Label";
 import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
+import type { Student } from "@/lib/mock-data";
 
-type Action = (formData: FormData) => Promise<{ success: boolean; id?: string; error?: string; errors?: Record<string, string[]> }>;
+type ActionResult = {
+  success: boolean;
+  id?: string;
+  error?: string;
+  errors?: Record<string, string[]>;
+};
+
+type Action = (formData: FormData) => Promise<ActionResult>;
+
+type StudentFormProps = {
+  action: Action;
+  initial?: Partial<Student> | null;
+  redirectTo: string;
+  submitLabel?: string;
+};
 
 export default function StudentForm({
   action,
   initial,
   redirectTo,
   submitLabel = "Save",
-}: {
-  action: Action;
-  initial?: Record<string, any>;
-  redirectTo: string;
-  submitLabel?: string;
-}) {
+}: StudentFormProps) {
   const router = useRouter();
-  const [state, formAction, pending] = useActionState(async (_prev: any, formData: FormData) => {
-    const res = await action(formData);
-    if (res.success) {
-      toast.addToast({ title: "Saved", description: "Student saved successfully", variant: "success" });
-      router.push(redirectTo.replace(":id", res.id || ""));
-      router.refresh();
-    }
-    return res;
-  }, null as any);
   const toast = useToast();
+  const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(
+    async (_prev, formData: FormData) => {
+      const res = await action(formData);
+      if (res.success) {
+        toast.addToast({ title: "Saved", description: "Student saved successfully", variant: "success" });
+        router.push(redirectTo.replace(":id", res.id || ""));
+        router.refresh();
+      }
+      return res;
+    },
+    null
+  );
 
   return (
     <form action={formAction} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -40,12 +53,12 @@ export default function StudentForm({
       ) : null}
       <Label>
         <span>Name</span>
-        <Input name="name" defaultValue={initial?.name} />
+        <Input name="name" defaultValue={initial?.name ?? ""} />
         {state?.errors?.name?.[0] ? <span className="text-red-600">{state.errors.name[0]}</span> : null}
       </Label>
       <Label>
         <span>Status</span>
-        <Select name="status" defaultValue={initial?.status || "active"}>
+        <Select name="status" defaultValue={initial?.status ?? "active"}>
           <option>active</option>
           <option>inactive</option>
           <option>suspended</option>
@@ -55,47 +68,49 @@ export default function StudentForm({
       </Label>
       <Label>
         <span>Date of Birth</span>
-        <Input type="date" name="dob" defaultValue={initial?.dob} />
+        <Input type="date" name="dob" defaultValue={initial?.dob ?? ""} />
         {state?.errors?.dob?.[0] ? <span className="text-red-600">{state.errors.dob[0]}</span> : null}
       </Label>
       <Label>
         <span>Photo URL</span>
-        <Input name="photoUrl" defaultValue={initial?.photoUrl} />
+        <Input name="photoUrl" defaultValue={initial?.photoUrl ?? ""} />
         {state?.errors?.photoUrl?.[0] ? <span className="text-red-600">{state.errors.photoUrl[0]}</span> : null}
       </Label>
       <Label>
         <span>Guardian Name</span>
-        <Input name="guardianName" defaultValue={initial?.guardian?.name} />
+        <Input name="guardianName" defaultValue={initial?.guardian?.name ?? ""} />
       </Label>
       <Label>
         <span>Guardian Phone</span>
-        <Input name="guardianPhone" defaultValue={initial?.guardian?.phone} />
+        <Input name="guardianPhone" defaultValue={initial?.guardian?.phone ?? ""} />
       </Label>
       <Label>
         <span>State of Origin</span>
-        <Input name="stateOfOrigin" defaultValue={initial?.stateOfOrigin} />
+        <Input name="stateOfOrigin" defaultValue={initial?.stateOfOrigin ?? ""} />
       </Label>
       <Label>
         <span>Scholarship</span>
-        <Input name="scholarship" defaultValue={initial?.scholarship} />
+        <Input name="scholarship" defaultValue={initial?.scholarship ?? ""} />
       </Label>
       <Label className="sm:col-span-2">
         <span>Medical Issues</span>
-        <Input name="medicalIssues" defaultValue={initial?.medicalIssues?.join?.(", ")} />
+        <Input name="medicalIssues" defaultValue={initial?.medicalIssues?.join(", ") ?? ""} />
       </Label>
       <Label className="sm:col-span-2">
         <span>Disabilities</span>
-        <Input name="disabilities" defaultValue={initial?.disabilities?.join?.(", ")} />
+        <Input name="disabilities" defaultValue={initial?.disabilities?.join(", ") ?? ""} />
       </Label>
       <Label className="sm:col-span-2">
         <span>Clubs/Associations</span>
-        <Input name="clubs" defaultValue={initial?.clubs?.join?.(", ")} />
+        <Input name="clubs" defaultValue={initial?.clubs?.join(", ") ?? ""} />
       </Label>
       <div className="sm:col-span-2 flex gap-2">
         <Button disabled={pending} type="submit">
           {pending ? "Saving..." : submitLabel}
         </Button>
-        <Button variant="secondary" type="button" onClick={() => router.back()}>Cancel</Button>
+        <Button variant="secondary" type="button" onClick={() => router.back()}>
+          Cancel
+        </Button>
       </div>
     </form>
   );
