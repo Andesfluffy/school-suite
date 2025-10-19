@@ -3,8 +3,14 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { QuestionBankInputSchema } from "@/lib/validation";
+import { requireSchoolSession } from "@/lib/auth/server-session";
+
+async function ensureSession() {
+  await requireSchoolSession();
+}
 
 export async function createQuestionBankItem(formData: FormData) {
+  await ensureSession();
   const parsed = QuestionBankInputSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
     const message = parsed.error.issues.map((issue) => issue.message).join(", ");
@@ -48,5 +54,6 @@ export async function createQuestionBankItem(formData: FormData) {
 }
 
 export async function listQuestionBankItems() {
+  await ensureSession();
   return prisma.questionBankItem.findMany({ include: { uploader: true }, orderBy: { createdAt: "desc" } });
 }

@@ -3,6 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { PayrollInputSchema } from "@/lib/validation";
+import { requireSchoolSession } from "@/lib/auth/server-session";
+
+async function ensureSession() {
+  await requireSchoolSession();
+}
 
 function parseBreakdown(value: string | undefined, field: "allowances" | "deductions") {
   if (!value) return { items: undefined } as const;
@@ -30,6 +35,7 @@ function parseBreakdown(value: string | undefined, field: "allowances" | "deduct
 }
 
 export async function createPayrollRecord(formData: FormData) {
+  await ensureSession();
   const parsed = PayrollInputSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
     const message = parsed.error.issues.map((issue) => issue.message).join(", ");
@@ -86,5 +92,6 @@ export async function createPayrollRecord(formData: FormData) {
 }
 
 export async function listPayrollRecords() {
+  await ensureSession();
   return prisma.payrollRecord.findMany({ include: { staff: true }, orderBy: { createdAt: "desc" } });
 }

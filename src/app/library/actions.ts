@@ -3,6 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { LibraryAssetInputSchema } from "@/lib/validation";
+import { requireSchoolSession } from "@/lib/auth/server-session";
+
+async function ensureSession() {
+  await requireSchoolSession();
+}
 
 function parseTags(value?: string | null) {
   if (!value) return undefined;
@@ -14,6 +19,7 @@ function parseTags(value?: string | null) {
 }
 
 export async function createLibraryAsset(formData: FormData) {
+  await ensureSession();
   const parsed = LibraryAssetInputSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
     const message = parsed.error.issues.map((issue) => issue.message).join(", ");
@@ -45,5 +51,6 @@ export async function createLibraryAsset(formData: FormData) {
 }
 
 export async function listLibraryAssets() {
+  await ensureSession();
   return prisma.libraryAsset.findMany({ include: { uploader: true }, orderBy: { createdAt: "desc" } });
 }

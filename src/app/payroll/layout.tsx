@@ -2,12 +2,12 @@ import type { ReactNode } from "react";
 import RequireAuth from "@/components/RequireAuth";
 import { requireSchoolSession } from "@/lib/auth/server-session";
 
-export default async function FinancialsLayout({ children }: { children: ReactNode }) {
+export default async function PayrollLayout({ children }: { children: ReactNode }) {
   await requireSchoolSession();
   return (
     <RequireAuth
-      section="financial command desk"
-      blurb="Sign in as the school to reconcile income, expenses, and cashflow with audit-ready exports."
+      section="payroll centre"
+      blurb="Authenticate with your school workspace to publish runs, track statuses, and export payslips."
     >
       {children}
     </RequireAuth>

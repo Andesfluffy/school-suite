@@ -4,8 +4,14 @@ import { prisma } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { FinancialInputSchema } from "@/lib/validation";
 import type { FinancialEntry } from "@/lib/mock-data";
+import { requireSchoolSession } from "@/lib/auth/server-session";
+
+async function ensureSession() {
+  await requireSchoolSession();
+}
 
 export async function createFinancialEntry(formData: FormData) {
+  await ensureSession();
   const parsed = FinancialInputSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
     const message = parsed.error.issues.map((i) => i.message).join(", ");
@@ -33,6 +39,7 @@ export async function listFinancialEntries(
   type: "income" | "expense",
   filters?: { category?: string; status?: string; from?: string; to?: string }
 ) {
+  await ensureSession();
   type FinancialWhere = {
     type: FinancialEntry["type"];
     category?: FinancialEntry["category"];

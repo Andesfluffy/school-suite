@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { getSchoolSessionFromCookie } from "@/lib/auth/server-session";
 
 type FinancialPoint = { month: string; income: number; expense: number };
 
@@ -10,6 +11,10 @@ type OverviewPayload = {
 };
 
 export async function GET() {
+  const session = await getSchoolSessionFromCookie();
+  if (!session) {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
   try {
     const [students, staff, financialEntries] = await Promise.all([
       prisma.student.count(),

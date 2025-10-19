@@ -4,6 +4,11 @@ import { prisma } from "@/lib/db";
 import { EventInputSchema } from "@/lib/validation";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { requireSchoolSession } from "@/lib/auth/server-session";
+
+async function ensureSession() {
+  await requireSchoolSession();
+}
 
 function normaliseAudience(audience?: string | null) {
   if (!audience) return undefined;
@@ -23,14 +28,17 @@ function toIsoString(value: string) {
 }
 
 export async function listEvents() {
+  await ensureSession();
   return prisma.eventItem.findMany({ orderBy: { date: "asc" } });
 }
 
 export async function getEvent(id: string) {
+  await ensureSession();
   return prisma.eventItem.findUnique({ where: { id } });
 }
 
 export async function createEvent(formData: FormData) {
+  await ensureSession();
   const parsed = EventInputSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
     const message = parsed.error.issues.map((issue) => issue.message).join(", ");
@@ -54,6 +62,7 @@ export async function createEvent(formData: FormData) {
 }
 
 export async function updateEvent(id: string, formData: FormData) {
+  await ensureSession();
   const parsed = EventInputSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
     const message = parsed.error.issues.map((issue) => issue.message).join(", ");
@@ -79,6 +88,7 @@ export async function updateEvent(id: string, formData: FormData) {
 }
 
 export async function deleteEvent(id: string) {
+  await ensureSession();
   await prisma.eventItem.delete({ where: { id } });
   revalidatePath("/events");
   redirect("/events");

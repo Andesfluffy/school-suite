@@ -14,8 +14,10 @@ export default function RequireAuth({
   section: string;
   blurb?: string;
 }) {
-  const { status, user, signInWithGoogle } = useAuth();
+  const { status, user, error, onboarding, signInWithGoogle, signOut } = useAuth();
   const loading = status === "initializing" || status === "authenticating";
+  const onboardingMode = status === "onboarding";
+  const unauthorized = status === "unauthorized";
 
   if (loading) {
     return (
@@ -28,7 +30,17 @@ export default function RequireAuth({
     );
   }
 
-  if (!user) {
+  if (!user || onboardingMode || unauthorized) {
+    const headline = onboardingMode
+      ? "Finish school onboarding"
+      : unauthorized
+        ? "Workspace access denied"
+        : "School login required";
+    const message = onboardingMode
+      ? `Create your ${onboarding?.domain ?? "school"} workspace from the sign-in page.`
+      : unauthorized
+        ? error ?? "Your Google Workspace account is not provisioned for this module."
+        : blurb ?? `Authenticate with your Google Workspace identity to open the ${section}.`;
     return (
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#090909]/95 p-8 sm:p-10">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#2a0008]/40 via-transparent to-transparent" aria-hidden />
@@ -37,19 +49,27 @@ export default function RequireAuth({
             <span className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_10px_rgba(217,4,41,0.8)]" aria-hidden />
             Restricted workspace
           </div>
-          <h2 className="font-display text-[clamp(1.6rem,2.6vw,2.2rem)] font-semibold text-white">School login required</h2>
-          <p className="text-sm text-white/70">
-            {blurb ?? `Authenticate with your Google Workspace identity to open the ${section}.`}
-          </p>
+          <h2 className="font-display text-[clamp(1.6rem,2.6vw,2.2rem)] font-semibold text-white">{headline}</h2>
+          <p className="text-sm text-white/70">{message}</p>
           <div className="flex flex-wrap gap-3 pt-1">
-            <button
-              type="button"
-              onClick={() => void signInWithGoogle()}
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--brand)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--brand-500)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-500)]"
-            >
-              <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs font-bold text-black">G</span>
-              Launch school login
-            </button>
+            {unauthorized ? (
+              <button
+                type="button"
+                onClick={() => void signOut()}
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold text-white/80 transition hover:bg-white/10"
+              >
+                Sign out
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => void signInWithGoogle()}
+                className="inline-flex items-center gap-2 rounded-full bg-[var(--brand)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--brand-500)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-500)]"
+              >
+                <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white text-xs font-bold text-black">G</span>
+                Launch school login
+              </button>
+            )}
             <Link
               href="/auth/sign-in"
               className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
