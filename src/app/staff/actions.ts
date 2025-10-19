@@ -4,8 +4,14 @@ import { prisma } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { StaffInputSchema } from "@/lib/validation";
+import { requireSchoolSession } from "@/lib/auth/server-session";
+
+async function ensureSession() {
+  await requireSchoolSession();
+}
 
 export async function createStaff(formData: FormData) {
+  await ensureSession();
   const parsed = StaffInputSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
     const message = parsed.error.issues.map((i) => i.message).join(", ");
@@ -54,14 +60,17 @@ export async function createStaff(formData: FormData) {
 }
 
 export async function listStaff() {
+  await ensureSession();
   return prisma.staff.findMany({ orderBy: { createdAt: "desc" } });
 }
 
 export async function getStaff(id: string) {
+  await ensureSession();
   return prisma.staff.findUnique({ where: { id } });
 }
 
 export async function updateStaff(id: string, formData: FormData) {
+  await ensureSession();
   const parsed = StaffInputSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
     const message = parsed.error.issues.map((i) => i.message).join(", ");
@@ -111,6 +120,7 @@ export async function updateStaff(id: string, formData: FormData) {
 }
 
 export async function deleteStaff(id: string) {
+  await ensureSession();
   await prisma.staff.delete({ where: { id } });
   revalidatePath("/staff");
   redirect("/staff");

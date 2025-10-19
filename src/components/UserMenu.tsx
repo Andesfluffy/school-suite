@@ -26,10 +26,11 @@ function Spinner() {
 }
 
 export default function UserMenu() {
-  const { status, user, signInWithGoogle, signOut } = useAuth();
+  const { status, user, session, error, signInWithGoogle, signOut } = useAuth();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
   const loading = status === "initializing" || status === "authenticating";
+  const unauthorized = status === "unauthorized";
 
   useEffect(() => {
     const onPointer = (event: PointerEvent) => {
@@ -70,6 +71,19 @@ export default function UserMenu() {
     .map((chunk) => chunk[0]?.toUpperCase())
     .join("");
 
+  if (unauthorized) {
+    return (
+      <button
+        type="button"
+        onClick={() => void signOut()}
+        className="inline-flex items-center gap-2 rounded-full border border-rose-500/40 bg-rose-500/10 px-3.5 py-1.5 text-sm font-semibold text-rose-100 shadow-[0_15px_40px_-30px_rgba(190,18,60,0.8)] transition hover:bg-rose-500/20"
+      >
+        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-rose-500/30 text-xs font-bold">!</span>
+        Access blocked
+      </button>
+    );
+  }
+
   return (
     <div className="relative" ref={ref}>
       <button
@@ -106,6 +120,14 @@ export default function UserMenu() {
             <p className="font-medium text-white">{user.name}</p>
             <p className="text-xs text-white/70">{user.email}</p>
           </div>
+          {session ? (
+            <div className="mb-3 space-y-1 rounded-md border border-white/10 bg-white/5 p-2">
+              <p className="text-[11px] uppercase tracking-wide text-white/50">School</p>
+              <p className="text-sm font-semibold text-white">{session.school.name}</p>
+              <p className="text-xs text-white/60">@{session.school.domain}</p>
+            </div>
+          ) : null}
+          {error ? <p className="mb-3 text-xs text-rose-200/80">{error}</p> : null}
           <Link
             href="/students"
             className="block rounded-md bg-[var(--brand)] px-3 py-2 text-center font-semibold text-white transition hover:bg-[var(--brand-500)]"

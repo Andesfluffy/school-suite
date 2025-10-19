@@ -4,10 +4,16 @@ import { prisma } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { AcademicInputSchema } from "@/lib/validation";
 import type { AcademicRecord, Student } from "@/lib/mock-data";
+import { requireSchoolSession } from "@/lib/auth/server-session";
 
 export type AcademicRecordWithStudent = AcademicRecord & { student?: Student | null };
 
+async function ensureSession() {
+  await requireSchoolSession();
+}
+
 export async function createAcademicRecord(formData: FormData) {
+  await ensureSession();
   const parsed = AcademicInputSchema.safeParse(Object.fromEntries(formData.entries()));
   if (!parsed.success) {
     const message = parsed.error.issues.map((i) => i.message).join(", ");
@@ -30,6 +36,7 @@ export async function createAcademicRecord(formData: FormData) {
 }
 
 export async function listAcademicRecords(): Promise<AcademicRecordWithStudent[]> {
+  await ensureSession();
   const records = await prisma.academicRecord.findMany({
     include: { student: true },
     orderBy: { createdAt: "desc" },
@@ -38,6 +45,7 @@ export async function listAcademicRecords(): Promise<AcademicRecordWithStudent[]
 }
 
 export async function performanceDashboard() {
+  await ensureSession();
   const records = await prisma.academicRecord.findMany();
   const count = records.length;
   const avgAttendance = count ? records.reduce((s, r) => s + (r.attendance ?? 0), 0) / count : 0;

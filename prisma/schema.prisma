@@ -51,7 +51,11 @@ model Staff {
   sanction      String?
   clubs         Json?
   qualification String?
-  financials    FinancialEntry[]
+  financials    FinancialEntry[]     @relation("StaffFinancialEntries")
+  libraryAssets LibraryAsset[]       @relation("StaffLibraryUploads")
+  questionBankItems QuestionBankItem[] @relation("StaffQuestionBankUploads")
+  payrollRecords PayrollRecord[]     @relation("StaffPayrollRecords")
+  memberships   SchoolMembership[]   @relation("StaffMembership")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
@@ -142,6 +146,11 @@ enum PayrollStatus {
   paid
 }
 
+enum MembershipRole {
+  admin
+  staff
+}
+
 model FinancialEntry {
   id          String            @id @default(cuid())
   type        EntryType
@@ -151,7 +160,7 @@ model FinancialEntry {
   description String?
   student     Student?          @relation(fields: [studentId], references: [id])
   studentId   String?
-  staff       Staff?            @relation(fields: [staffId], references: [id])
+  staff       Staff?            @relation("StaffFinancialEntries", fields: [staffId], references: [id])
   staffId     String?
   status      PaymentStatus?
   createdAt   DateTime          @default(now())
@@ -178,7 +187,7 @@ model LibraryAsset {
   format      LibraryFormat
   fileUrl     String?
   tags        Json?
-  uploader    Staff?               @relation(fields: [uploaderId], references: [id])
+  uploader    Staff?               @relation("StaffLibraryUploads", fields: [uploaderId], references: [id])
   uploaderId  String?
   publishedAt String?
   downloads   Int                  @default(0)
@@ -198,7 +207,7 @@ model QuestionBankItem {
   scheduledDate  String?
   instructions   String?
   fileUrl        String?
-  uploader       Staff?   @relation(fields: [uploaderId], references: [id])
+  uploader       Staff?   @relation("StaffQuestionBankUploads", fields: [uploaderId], references: [id])
   uploaderId     String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -206,7 +215,7 @@ model QuestionBankItem {
 
 model PayrollRecord {
   id          String         @id @default(cuid())
-  staff       Staff          @relation(fields: [staffId], references: [id])
+  staff       Staff          @relation("StaffPayrollRecords", fields: [staffId], references: [id])
   staffId     String
   month       Int
   year        Int
@@ -220,4 +229,28 @@ model PayrollRecord {
   notes       String?
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
+}
+
+model School {
+  id          String              @id @default(cuid())
+  name        String
+  domain      String              @unique
+  memberships SchoolMembership[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+}
+
+model SchoolMembership {
+  id         String         @id @default(cuid())
+  googleUid  String         @unique
+  email      String
+  role       MembershipRole
+  school     School         @relation(fields: [schoolId], references: [id])
+  schoolId   String
+  staff      Staff?         @relation("StaffMembership", fields: [staffId], references: [id])
+  staffId    String?
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  @@unique([email, schoolId])
 }
