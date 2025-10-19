@@ -45,53 +45,35 @@ export default function RootLayout({
               Skip to content
             </a>
 
-            <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0c1220e6] shadow-[0_18px_40px_-32px_rgba(15,23,42,0.7)] backdrop-blur">
-              <div className="relative mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
-                <div className="absolute inset-0 -z-10 overflow-hidden">
-                  <div className="absolute inset-x-[-10%] inset-y-[-120%] bg-gradient-to-r from-[rgba(37,99,235,0.18)] via-[rgba(217,4,41,0.24)] to-[rgba(129,140,248,0.18)] blur-3xl" aria-hidden />
-                </div>
+            <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0b1220eb] backdrop-blur">
+              <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
                 <Link
                   href="/"
                   aria-label="Go to homepage"
-                  className="group flex min-w-0 items-center gap-3 rounded-full border border-white/10 bg-white/5 px-3 py-2 transition duration-300 hover:border-white/20 hover:bg-white/10"
+                  className="group flex min-w-0 items-center gap-3 rounded-full px-2.5 py-1.5 text-white transition hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/logo.svg"
                     alt="Brand-Stone logo"
-                    className="h-9 w-9 rounded-full border border-white/10 bg-black/40 p-1 shadow-[0_10px_30px_-18px_rgba(15,23,42,0.8)]"
+                    className="h-9 w-9 rounded-full border border-white/20 bg-black/50 p-1"
                   />
                   <div className="flex min-w-0 flex-col">
-                    <span className="font-display text-base font-semibold tracking-tight text-white group-hover:text-white">
-                      Brand-Stone
-                    </span>
-                    <span className="text-xs uppercase tracking-[0.2em] text-white/70">
-                      School Suite
-                    </span>
+                    <span className="truncate text-sm font-semibold tracking-tight">Brand-Stone</span>
+                    <span className="text-xs font-medium text-white/60">School Suite</span>
                   </div>
                 </Link>
 
-                <div className="hidden justify-center md:flex">
+                <div className="hidden flex-1 justify-center md:flex">
                   <Nav />
                 </div>
 
-                <div className="flex flex-1 items-center justify-end gap-4">
-                  <div className="hidden items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] uppercase tracking-[0.3em] text-white/70 sm:flex">
-                    <span className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_12px_rgba(217,4,41,0.8)]" aria-hidden />
-                    Schools only
+                <div className="flex flex-1 items-center justify-end gap-3 text-white/80">
+                  <div className="md:hidden">
+                    <Nav />
                   </div>
-                  <div className="hidden min-w-[9rem] text-right text-[11px] uppercase tracking-[0.32em] text-white/55 lg:block">
-                    <span className="block">Single sign-on</span>
-                    <span className="block text-white/45">Google Workspace</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-white/90">
-                    <span className="hidden text-[11px] uppercase tracking-[0.3em] text-white/60 sm:block">Profile</span>
-                    <UserMenu />
-                  </div>
+                  <UserMenu />
                 </div>
-              </div>
-              <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 pb-3 sm:px-6 lg:px-8 md:hidden">
-                <Nav />
               </div>
             </header>
 

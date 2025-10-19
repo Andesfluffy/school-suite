@@ -5,53 +5,51 @@ import Link from "next/link";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import Badge from "@/components/ui/Badge";
+import type { Student } from "@/lib/mock-data";
 
-type StudentRecord = {
-  id: string;
-  name: string;
-  status: string;
-  dob?: string | null;
-  photoUrl?: string | null;
-  guardian?: unknown;
-  stateOfOrigin?: string | null;
-  scholarship?: string | null;
-  financialStatus?: string | null;
-  medicalIssues?: unknown;
-  disabilities?: unknown;
-  sanction?: string | null;
-  clubs?: unknown;
-  cgpa?: number | null;
-  classOfDegree?: string | null;
-};
+type StudentRecord = Pick<
+  Student,
+  | "id"
+  | "name"
+  | "status"
+  | "dob"
+  | "photoUrl"
+  | "guardian"
+  | "stateOfOrigin"
+  | "scholarship"
+  | "financialStatus"
+  | "medicalIssues"
+  | "disabilities"
+  | "sanction"
+  | "clubs"
+  | "cgpa"
+  | "classOfDegree"
+>;
 
 type ViewMode = "gallery" | "table";
 
-function normaliseArray(value: unknown): string[] {
+function normaliseArray(value: string[] | null | undefined | string): string[] {
   if (!value) return [];
   if (Array.isArray(value)) {
     return value
       .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
       .filter(Boolean);
   }
-  if (typeof value === "string") {
-    return value
-      .split(",")
-      .map((entry) => entry.trim())
-      .filter(Boolean);
-  }
-  return [];
+  return value
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter(Boolean);
 }
 
-function extractGuardian(value: unknown) {
+function extractGuardian(value: StudentRecord["guardian"]) {
   if (!value || typeof value !== "object") return { name: "—", phone: undefined as string | undefined };
-  const record = value as { name?: unknown; phone?: unknown };
   return {
-    name: typeof record.name === "string" && record.name.trim() ? record.name : "—",
-    phone: typeof record.phone === "string" && record.phone.trim() ? record.phone : undefined,
+    name: typeof value.name === "string" && value.name.trim() ? value.name : "—",
+    phone: typeof value.phone === "string" && value.phone.trim() ? value.phone : undefined,
   };
 }
 
-function formatStatusTone(status: string) {
+function formatStatusTone(status: StudentRecord["status"]) {
   switch (status) {
     case "active":
       return "green" as const;

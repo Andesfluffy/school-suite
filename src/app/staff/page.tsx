@@ -66,7 +66,7 @@ export default async function StaffPage() {
           Add staff record
         </Link>
       </div>
-      <StaffListClient staff={staff as any} />
+      <StaffListClient staff={staff} />
     </section>
   );
 }

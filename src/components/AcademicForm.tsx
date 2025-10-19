@@ -8,7 +8,14 @@ import Label from "@/components/ui/Label";
 import Button from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 
-type Action = (formData: FormData) => Promise<{ success: boolean; id?: string; error?: string; errors?: Record<string, string[]> }>;
+type ActionResult = {
+  success: boolean;
+  id?: string;
+  error?: string;
+  errors?: Record<string, string[]>;
+};
+
+type Action = (formData: FormData) => Promise<ActionResult>;
 
 export default function AcademicForm({
   action,
@@ -20,16 +27,19 @@ export default function AcademicForm({
   redirectTo: string;
 }) {
   const router = useRouter();
-  const [state, formAction, pending] = useActionState(async (_prev: any, formData: FormData) => {
-    const res = await action(formData);
-    if (res.success) {
-      toast.addToast({ title: "Saved", description: "Performance record added", variant: "success" });
-      router.push(redirectTo);
-      router.refresh();
-    }
-    return res;
-  }, null as any);
   const toast = useToast();
+  const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(
+    async (_prev, formData: FormData) => {
+      const res = await action(formData);
+      if (res.success) {
+        toast.addToast({ title: "Saved", description: "Performance record added", variant: "success" });
+        router.push(redirectTo);
+        router.refresh();
+      }
+      return res;
+    },
+    null
+  );
 
   return (
     <form action={formAction} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">

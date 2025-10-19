@@ -3,6 +3,9 @@
 import { prisma } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { AcademicInputSchema } from "@/lib/validation";
+import type { AcademicRecord, Student } from "@/lib/mock-data";
+
+export type AcademicRecordWithStudent = AcademicRecord & { student?: Student | null };
 
 export async function createAcademicRecord(formData: FormData) {
   const parsed = AcademicInputSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -26,8 +29,12 @@ export async function createAcademicRecord(formData: FormData) {
   return { success: true, id: created.id } as const;
 }
 
-export async function listAcademicRecords() {
-  return prisma.academicRecord.findMany({ include: { student: true }, orderBy: { createdAt: "desc" } });
+export async function listAcademicRecords(): Promise<AcademicRecordWithStudent[]> {
+  const records = await prisma.academicRecord.findMany({
+    include: { student: true },
+    orderBy: { createdAt: "desc" },
+  });
+  return records as AcademicRecordWithStudent[];
 }
 
 export async function performanceDashboard() {

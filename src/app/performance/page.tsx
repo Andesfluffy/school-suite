@@ -1,9 +1,13 @@
 import { listAcademicRecords, performanceDashboard } from "./actions";
+import type { AcademicRecordWithStudent } from "./actions";
 import PageHeader from "@/components/PageHeader";
 import Link from "next/link";
 
 export default async function PerformancePage() {
-  const [stats, records] = await Promise.all([
+  const [stats, records]: [
+    Awaited<ReturnType<typeof performanceDashboard>>,
+    AcademicRecordWithStudent[],
+  ] = await Promise.all([
     performanceDashboard(),
     listAcademicRecords(),
   ]);
@@ -111,7 +115,7 @@ export default async function PerformancePage() {
                   records.map((record) => (
                     <tr key={record.id} className="hover:bg-white/5">
                       <td className="px-4 py-3">
-                        <div className="font-medium text-white">{(record as any).student?.name || record.studentId}</div>
+                        <div className="font-medium text-white">{record.student?.name ?? record.studentId}</div>
                         <div className="text-xs text-white/60">ID: {record.studentId}</div>
                       </td>
                       <td className="px-4 py-3">{record.term}</td>
@@ -135,7 +139,7 @@ export default async function PerformancePage() {
                 topAttendance.map((record) => (
                   <li key={`attendance-${record.id}`} className="flex items-center justify-between gap-3">
                     <div>
-                      <div className="font-medium text-white">{(record as any).student?.name || record.studentId}</div>
+                      <div className="font-medium text-white">{record.student?.name ?? record.studentId}</div>
                       <div className="text-xs text-white/60">{record.term}</div>
                     </div>
                     <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-100">
@@ -155,7 +159,7 @@ export default async function PerformancePage() {
                 topCgpa.map((record) => (
                   <li key={`cgpa-${record.id}`} className="flex items-center justify-between gap-3">
                     <div>
-                      <div className="font-medium text-white">{(record as any).student?.name || record.studentId}</div>
+                      <div className="font-medium text-white">{record.student?.name ?? record.studentId}</div>
                       <div className="text-xs text-white/60">{record.term}</div>
                     </div>
                     <span className="rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-sm text-sky-100">
