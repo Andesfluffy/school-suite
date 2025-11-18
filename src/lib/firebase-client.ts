@@ -26,6 +26,7 @@ export type FirebaseAuthUser = {
   displayName: string | null;
   email: string | null;
   photoURL: string | null;
+  getIdToken: (forceRefresh?: boolean) => Promise<string>;
 };
 
 export type FirebaseGoogleAuthProvider = {
@@ -37,6 +38,7 @@ export type FirebaseAuth = {
     next: (user: FirebaseAuthUser | null) => void,
     error?: (error: Error) => void,
   ) => () => void;
+  currentUser: FirebaseAuthUser | null;
   signInWithPopup: (provider: FirebaseGoogleAuthProvider) => Promise<unknown>;
   signOut: () => Promise<void>;
   useDeviceLanguage: () => void;

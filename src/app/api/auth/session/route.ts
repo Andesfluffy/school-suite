@@ -13,6 +13,7 @@ import {
   getSchoolSessionFromCookie,
   setSchoolSessionCookie,
 } from "@/lib/auth/server-session";
+import { verifyIdToken } from "@/lib/firebase-admin";
 
 const SessionPayload = z.object({
   uid: z.string().min(1, "UID is required"),
@@ -29,6 +30,13 @@ function normaliseEmail(email: string) {
 function resolveDomain(email: string) {
   const [, domain] = email.split("@");
   return domain?.toLowerCase();
+}
+
+function extractBearerToken(authHeader: string | null) {
+  if (!authHeader) return null;
+  const [scheme, token] = authHeader.split(" ");
+  if (!token || scheme.toLowerCase() !== "bearer") return null;
+  return token;
 }
 
 function buildResponse(session: Awaited<ReturnType<typeof getSchoolSessionFromCookie>>) {
@@ -69,6 +77,14 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const raw = await request.json().catch(() => null);
+  const bearerToken = extractBearerToken(request.headers.get("authorization"));
+  const bodyToken = typeof raw?.idToken === "string" ? raw.idToken : null;
+  const idToken = bearerToken ?? bodyToken;
+
+  if (!idToken) {
+    return NextResponse.json({ error: "Missing ID token" }, { status: 401 });
+  }
+
   const parsed = SessionPayload.safeParse(raw);
   if (!parsed.success) {
     return NextResponse.json(
@@ -77,15 +93,54 @@ export async function POST(request: Request) {
     );
   }
 
-  const { uid, email, schoolName, role } = parsed.data;
-  const normalisedEmail = normaliseEmail(email);
-  const domain = resolveDomain(normalisedEmail);
+  const { uid: requestedUid, email, schoolName, role } = parsed.data;
+  let decoded;
+
+  try {
+    decoded = await verifyIdToken(idToken);
+  } catch (error) {
+    console.error("Failed to verify Firebase ID token", error);
+    return NextResponse.json({ error: "Invalid ID token" }, { status: 401 });
+  }
+
+  const verifiedEmail = decoded.email ? normaliseEmail(decoded.email) : null;
+  const verifiedDomain = verifiedEmail ? resolveDomain(verifiedEmail) : null;
+
+  if (!decoded.uid || !verifiedEmail || !verifiedDomain) {
+    return NextResponse.json({ error: "Verified token is missing account details" }, { status: 400 });
+  }
+
+  if (decoded.uid !== requestedUid) {
+    return NextResponse.json({ error: "UID mismatch" }, { status: 403 });
+  }
+
+  const requestedEmail = normaliseEmail(email);
+  if (requestedEmail !== verifiedEmail) {
+    return NextResponse.json({ error: "Email mismatch" }, { status: 403 });
+  }
+
+  const normalisedEmail = verifiedEmail;
+  const domain = verifiedDomain;
+  const verifiedUid = decoded.uid;
 
   if (!domain) {
     return NextResponse.json({ error: "Email domain missing" }, { status: 400 });
   }
 
-  const existing = await findMembershipByUid(uid);
+  const workspaceDomain = process.env.NEXT_PUBLIC_GOOGLE_WORKSPACE_DOMAIN?.toLowerCase();
+  if (workspaceDomain && domain !== workspaceDomain) {
+    return NextResponse.json(
+      {
+        error: "Workspace domain mismatch",
+        code: "DOMAIN_MISMATCH",
+        expected: workspaceDomain,
+        actual: domain,
+      },
+      { status: 403 },
+    );
+  }
+
+  const existing = await findMembershipByUid(verifiedUid);
   if (existing) {
     if (existing.school.domain !== domain) {
       return NextResponse.json(
@@ -101,7 +156,7 @@ export async function POST(request: Request) {
     if (existing.email !== normalisedEmail) {
       await updateMembershipContact(existing.id, normalisedEmail);
     }
-    setSchoolSessionCookie({ uid, membershipId: existing.id });
+    setSchoolSessionCookie({ uid: verifiedUid, membershipId: existing.id });
     return NextResponse.json(buildResponse({ ...existing, email: normalisedEmail }));
   }
 
@@ -132,12 +187,12 @@ export async function POST(request: Request) {
   }
 
   const created = await createMembership({
-    uid,
+    uid: verifiedUid,
     email: normalisedEmail,
     schoolId: school.id,
     role: role ?? "admin",
   });
-  setSchoolSessionCookie({ uid, membershipId: created.id });
+  setSchoolSessionCookie({ uid: verifiedUid, membershipId: created.id });
   return NextResponse.json(buildResponse(created));
 }
 
