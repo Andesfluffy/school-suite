@@ -1,13 +1,22 @@
 import type { ReactNode } from "react";
 import RequireAuth from "@/components/RequireAuth";
+import UnauthenticatedState from "@/components/UnauthenticatedState";
 import { requireSchoolSession } from "@/lib/auth/server-session";
 
 export default async function EventsLayout({ children }: { children: ReactNode }) {
-  await requireSchoolSession();
+  const session = await requireSchoolSession({ allowUnauthenticated: true, currentPath: "/events" });
+  if (!session) {
+    return (
+      <UnauthenticatedState
+        section="events and community workspace"
+        blurb="Authenticate as the school to build schedules, communicate changes, and keep your calendar in sync."
+      />
+    );
+  }
   return (
     <RequireAuth
-      section="events and communications hub"
-      blurb="Authenticate to publish ceremonies, fixtures, notices, and family communications from a single hub."
+      section="events and community workspace"
+      blurb="Authenticate as the school to build schedules, communicate changes, and keep your calendar in sync."
     >
       {children}
     </RequireAuth>

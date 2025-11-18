@@ -1,13 +1,22 @@
 import type { ReactNode } from "react";
 import RequireAuth from "@/components/RequireAuth";
+import UnauthenticatedState from "@/components/UnauthenticatedState";
 import { requireSchoolSession } from "@/lib/auth/server-session";
 
 export default async function PerformanceLayout({ children }: { children: ReactNode }) {
-  await requireSchoolSession();
+  const session = await requireSchoolSession({ allowUnauthenticated: true, currentPath: "/performance" });
+  if (!session) {
+    return (
+      <UnauthenticatedState
+        section="performance tracking workspace"
+        blurb="Authenticate as the school to see class averages, interventions, and momentum at a glance."
+      />
+    );
+  }
   return (
     <RequireAuth
-      section="performance analytics studio"
-      blurb="Authenticate with the school workspace to trend attendance, assessments, clubs, and interventions."
+      section="performance tracking workspace"
+      blurb="Authenticate as the school to see class averages, interventions, and momentum at a glance."
     >
       {children}
     </RequireAuth>

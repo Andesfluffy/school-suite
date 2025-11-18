@@ -1,13 +1,22 @@
 import type { ReactNode } from "react";
 import RequireAuth from "@/components/RequireAuth";
+import UnauthenticatedState from "@/components/UnauthenticatedState";
 import { requireSchoolSession } from "@/lib/auth/server-session";
 
 export default async function QuestionBankLayout({ children }: { children: ReactNode }) {
-  await requireSchoolSession();
+  const session = await requireSchoolSession({ allowUnauthenticated: true, currentPath: "/question-bank" });
+  if (!session) {
+    return (
+      <UnauthenticatedState
+        section="question bank workspace"
+        blurb="Authenticate as the school to curate question pools, map them to standards, and keep assessments aligned."
+      />
+    );
+  }
   return (
     <RequireAuth
-      section="question bank"
-      blurb="Authenticate with your school domain to curate assessments, schedules, and marking schemes."
+      section="question bank workspace"
+      blurb="Authenticate as the school to curate question pools, map them to standards, and keep assessments aligned."
     >
       {children}
     </RequireAuth>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AUTH_SIGN_IN_PATH } from "@/lib/routes";
 
 export default function CTA() {
   return (
@@ -14,7 +15,7 @@ export default function CTA() {
           </p>
           <div className="flex flex-wrap gap-3 pt-1">
             <Link
-              href="/auth/sign-in"
+              href={AUTH_SIGN_IN_PATH}
               className="rounded-full bg-[var(--brand)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--brand-500)]"
             >
               Initiate school login

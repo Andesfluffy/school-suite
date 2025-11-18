@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
+import { AUTH_SIGN_IN_PATH } from "@/lib/routes";
 import { useAuth } from "@/components/AuthProvider";
 
 const featureHighlights = [
@@ -102,7 +103,7 @@ export default function LandingShowcase() {
               {callToActionText}
             </button>
             <Link
-              href="/auth/sign-in"
+              href={AUTH_SIGN_IN_PATH}
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
             >
               Explore access controls

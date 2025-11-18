@@ -1,9 +1,15 @@
-import { cookies } from "next/headers";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma, type SchoolMembershipWithSchool } from "@/lib/db";
+import { AUTH_SIGN_IN_PATH, isPublicPath } from "@/lib/routes";
 
 const SESSION_COOKIE = "school-suite.session";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
+
+const SIGN_IN_PAGE_PATH = join(process.cwd(), "src/app/auth/sign-in/page.tsx");
+let signInRouteAvailable: boolean | null = null;
 
 type SessionCookiePayload = {
   uid: string;
@@ -21,6 +27,15 @@ function parseCookie(value: string | undefined): SessionCookiePayload | null {
     console.warn("Failed to parse session cookie", error);
   }
   return null;
+}
+
+function ensureSignInRouteExists() {
+  if (signInRouteAvailable !== null) return signInRouteAvailable;
+  signInRouteAvailable = existsSync(SIGN_IN_PAGE_PATH);
+  if (!signInRouteAvailable) {
+    throw new Error(`Authentication route is missing. Expected: ${SIGN_IN_PAGE_PATH}`);
+  }
+  return signInRouteAvailable;
 }
 
 export type SchoolSession = SchoolMembershipWithSchool;
@@ -41,12 +56,26 @@ export async function getSchoolSessionFromCookie(): Promise<SchoolSession | null
   return membership;
 }
 
-export async function requireSchoolSession(): Promise<SchoolSession> {
+type RequireSchoolSessionOptions = {
+  allowUnauthenticated?: boolean;
+  currentPath?: string | null;
+};
+
+export async function requireSchoolSession(
+  options: RequireSchoolSessionOptions = {},
+): Promise<SchoolSession | null> {
   const session = await getSchoolSessionFromCookie();
-  if (!session) {
-    redirect("/auth/sign-in");
+  if (session) {
+    return session;
   }
-  return session;
+
+  const currentPath = options.currentPath ?? headers().get("next-url") ?? headers().get("referer") ?? null;
+  if (options.allowUnauthenticated || isPublicPath(currentPath)) {
+    return null;
+  }
+
+  ensureSignInRouteExists();
+  redirect(AUTH_SIGN_IN_PATH);
 }
 
 export function setSchoolSessionCookie(payload: SessionCookiePayload) {
