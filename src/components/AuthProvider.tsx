@@ -83,10 +83,14 @@ async function requestSession(payload: {
   name: string;
   schoolName?: string;
   role?: "admin" | "staff";
+  idToken: string;
 }) {
   const response = await fetch("/api/auth/session", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${payload.idToken}`,
+    },
     body: JSON.stringify(payload),
   });
   const data = await response.json().catch(() => null);
@@ -117,12 +121,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setStatus("authenticating");
       setError(null);
       try {
+        const { auth } = await loadFirebaseAuth();
+        const idToken = await auth.currentUser?.getIdToken();
+        if (!idToken) {
+          throw new Error("Unable to fetch ID token from Firebase.");
+        }
         const nextSession = await requestSession({
           uid: authUser.uid,
           email: authUser.email,
           name: authUser.name,
           schoolName: overrides?.schoolName,
           role: overrides?.role,
+          idToken,
         });
         setSession(nextSession);
         setOnboarding(null);
