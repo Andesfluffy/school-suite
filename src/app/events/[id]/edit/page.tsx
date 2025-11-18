@@ -1,8 +1,9 @@
 import EventForm from "@/components/EventForm";
 import { getEvent, updateEvent } from "../../actions";
 
-export default async function EditEventPage({ params }: { params: { id: string } }) {
-  const event = await getEvent(params.id);
+export default async function EditEventPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const event = await getEvent(id);
   if (!event) {
     return <div className="text-sm">Event not found.</div>;
   }
@@ -19,7 +20,7 @@ export default async function EditEventPage({ params }: { params: { id: string }
           description: event.description as string | null,
           audience: Array.isArray(event.audience) ? (event.audience as string[]) : null,
         }}
-        redirectTo={`/events/${event.id}`}
+        redirectTo={`/events/${id}`}
         submitLabel="Update"
       />
     </section>

@@ -1,5 +1,6 @@
 "use server";
 
+import { Prisma, Status } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -35,7 +36,7 @@ export async function createStudent(formData: FormData) {
   const created = await prisma.student.create({
     data: {
       name,
-      status,
+      status: status as Status,
       dob: dob || undefined,
       photoUrl: photoUrl || undefined,
       guardian: guardianName ? { name: guardianName, phone: guardianPhone || undefined } : undefined,
@@ -86,15 +87,27 @@ export async function updateStudent(id: string, formData: FormData) {
     where: { id },
     data: {
       name,
-      status,
+      status: status as Status,
       dob: dob || undefined,
       photoUrl: photoUrl || undefined,
-      guardian: guardianName ? { name: guardianName, phone: guardianPhone || undefined } : null,
+      guardian:
+        guardianName || guardianPhone
+          ? { name: guardianName || undefined, phone: guardianPhone || undefined }
+          : Prisma.JsonNull,
       stateOfOrigin: stateOfOrigin || undefined,
       scholarship: scholarship || undefined,
-      medicalIssues: medicalIssues ? medicalIssues.split(",").map((s) => s.trim()).filter(Boolean) : null,
-      disabilities: disabilities ? disabilities.split(",").map((s) => s.trim()).filter(Boolean) : null,
-      clubs: clubs ? clubs.split(",").map((s) => s.trim()).filter(Boolean) : null,
+      medicalIssues:
+        medicalIssues && medicalIssues.trim()
+          ? medicalIssues.split(",").map((s) => s.trim()).filter(Boolean)
+          : Prisma.JsonNull,
+      disabilities:
+        disabilities && disabilities.trim()
+          ? disabilities.split(",").map((s) => s.trim()).filter(Boolean)
+          : Prisma.JsonNull,
+      clubs:
+        clubs && clubs.trim()
+          ? clubs.split(",").map((s) => s.trim()).filter(Boolean)
+          : Prisma.JsonNull,
     },
   });
   revalidatePath("/students");

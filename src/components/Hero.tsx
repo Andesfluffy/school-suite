@@ -10,9 +10,9 @@ export default function Hero() {
   const ref = useRef<HTMLDivElement | null>(null);
   const mx = useMotionValue(0.5);
   const my = useMotionValue(0.3);
-  const bg = useTransform([mx, my], ([x, y]) => {
-    const xPct = Math.round(x * 100);
-    const yPct = Math.round(y * 100);
+  const bg = useTransform([mx, my] as const, ([x, y]) => {
+    const xPct = Math.round(Number(x ?? 0) * 100);
+    const yPct = Math.round(Number(y ?? 0) * 100);
     return `radial-gradient(80rem 50rem at ${xPct}% ${yPct}%, rgba(217,4,41,0.24), transparent 60%)`;
   });
 

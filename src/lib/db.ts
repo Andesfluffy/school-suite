@@ -1,22 +1,19 @@
 import { PrismaClient, type MembershipRole, type Prisma } from "@prisma/client";
 
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = process.env.DATABASE_URL ?? "file:./dev.db";
 const missingDatabaseUrlMessage =
   "DATABASE_URL is not set. Add it to your environment (see .env.example) before running Prisma migrations or starting the app.";
 
-if (!databaseUrl) {
-  if (process.env.NODE_ENV === "production") {
-    throw new Error(missingDatabaseUrlMessage);
-  }
-
-  console.warn(missingDatabaseUrlMessage);
+if (!process.env.DATABASE_URL) {
+  console.warn(`${missingDatabaseUrlMessage} Falling back to ${databaseUrl}.`);
 }
 
 const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
 };
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient();
+export const prisma =
+  globalForPrisma.prisma ?? new PrismaClient({ datasources: { db: { url: databaseUrl } } });
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;

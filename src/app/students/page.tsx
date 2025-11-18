@@ -5,12 +5,57 @@ import PageHeader from "@/components/PageHeader";
 
 export default async function StudentsPage() {
   const students = await listStudents();
-  const total = students.length;
-  const active = students.filter((student) => student.status === "active").length;
-  const scholarships = students.filter((student) => Boolean(student.scholarship)).length;
-  const sanctions = students.filter((student) => Boolean(student.sanction)).length;
+  const normalisedStudents = students.map((student) => {
+    const rawGuardian = student.guardian;
+    const guardian =
+      rawGuardian && typeof rawGuardian === "object" && !Array.isArray(rawGuardian)
+        ? {
+            name:
+              "name" in rawGuardian && rawGuardian.name !== null
+                ? (rawGuardian as Record<string, unknown>).name?.toString()
+                : undefined,
+            phone:
+              "phone" in rawGuardian && rawGuardian.phone !== null
+                ? (rawGuardian as Record<string, unknown>).phone?.toString()
+                : undefined,
+          }
+        : undefined;
+
+    return {
+      ...student,
+      dob: student.dob ?? undefined,
+      photoUrl: student.photoUrl ?? undefined,
+      guardian,
+      stateOfOrigin: student.stateOfOrigin ?? undefined,
+      scholarship: student.scholarship ?? undefined,
+      financialStatus: student.financialStatus ?? undefined,
+      subjects: Array.isArray(student.subjects)
+        ? (student.subjects as unknown[]).map((value) => String(value))
+        : undefined,
+      medicalIssues: Array.isArray(student.medicalIssues)
+        ? (student.medicalIssues as unknown[]).map((value) => String(value))
+        : undefined,
+      disabilities: Array.isArray(student.disabilities)
+        ? (student.disabilities as unknown[]).map((value) => String(value))
+        : undefined,
+      clubs: Array.isArray(student.clubs)
+        ? (student.clubs as unknown[]).map((value) => String(value))
+        : undefined,
+      grades:
+        student.grades && typeof student.grades === "object" && !Array.isArray(student.grades)
+          ? (student.grades as Record<string, unknown>)
+          : undefined,
+      cgpa: student.cgpa ?? undefined,
+      classOfDegree: student.classOfDegree ?? undefined,
+    };
+  });
+
+  const total = normalisedStudents.length;
+  const active = normalisedStudents.filter((student) => student.status === "active").length;
+  const scholarships = normalisedStudents.filter((student) => Boolean(student.scholarship)).length;
+  const sanctions = normalisedStudents.filter((student) => Boolean(student.sanction)).length;
   const averageCgpa = total
-    ? students.reduce((sum, student) => sum + (Number(student.cgpa) || 0), 0) / total
+    ? normalisedStudents.reduce((sum, student) => sum + (Number(student.cgpa) || 0), 0) / total
     : 0;
   return (
     <section className="space-y-8">
@@ -68,7 +113,7 @@ export default async function StudentsPage() {
           Add student record
         </Link>
       </div>
-      <StudentListClient students={students} />
+      <StudentListClient students={normalisedStudents} />
     </section>
   );
 }

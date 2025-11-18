@@ -2,15 +2,20 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
+import { PayrollStatus } from "@prisma/client";
 import { PayrollInputSchema } from "@/lib/validation";
 import { requireSchoolSession } from "@/lib/auth/server-session";
+
+type BreakdownResult =
+  | { items?: { label: string; amount: number }[] }
+  | { error: string };
 
 async function ensureSession() {
   await requireSchoolSession();
 }
 
-function parseBreakdown(value: string | undefined, field: "allowances" | "deductions") {
-  if (!value) return { items: undefined } as const;
+function parseBreakdown(value: string | undefined, field: "allowances" | "deductions"): BreakdownResult {
+  if (!value) return { items: undefined };
   const lines = value
     .split(/[\n,]/)
     .map((line) => line.trim())
@@ -21,17 +26,17 @@ function parseBreakdown(value: string | undefined, field: "allowances" | "deduct
     if (!labelPart || !amountPart) {
       return {
         error: `Could not parse ${field} entry "${line}". Use Label:Amount format.`,
-      } as const;
+      };
     }
     const numeric = Number(amountPart.replace(/[^0-9.-]/g, ""));
     if (!Number.isFinite(numeric)) {
       return {
         error: `Enter a valid amount for ${field} entry "${line}".`,
-      } as const;
+      };
     }
     items.push({ label: labelPart, amount: numeric });
   }
-  return { items: items.length ? items : undefined } as const;
+  return { items: items.length ? items : undefined };
 }
 
 export async function createPayrollRecord(formData: FormData) {
@@ -40,7 +45,7 @@ export async function createPayrollRecord(formData: FormData) {
   if (!parsed.success) {
     const message = parsed.error.issues.map((issue) => issue.message).join(", ");
     const errors = parsed.error.flatten().fieldErrors as Record<string, string[]>;
-    return { success: false, error: message, errors } as const;
+    return { success: false, error: message, errors };
   }
 
   const {
@@ -58,11 +63,11 @@ export async function createPayrollRecord(formData: FormData) {
 
   const parsedAllowances = parseBreakdown(allowances || undefined, "allowances");
   if ("error" in parsedAllowances) {
-    return { success: false, error: parsedAllowances.error, errors: { allowances: [parsedAllowances.error] } } as const;
+    return { success: false, error: parsedAllowances.error, errors: { allowances: [parsedAllowances.error] } };
   }
   const parsedDeductions = parseBreakdown(deductions || undefined, "deductions");
   if ("error" in parsedDeductions) {
-    return { success: false, error: parsedDeductions.error, errors: { deductions: [parsedDeductions.error] } } as const;
+    return { success: false, error: parsedDeductions.error, errors: { deductions: [parsedDeductions.error] } };
   }
 
   const gross = Number(grossPay);
@@ -79,7 +84,7 @@ export async function createPayrollRecord(formData: FormData) {
       allowances: parsedAllowances.items,
       deductions: parsedDeductions.items,
       netPay,
-      status,
+      status: status as PayrollStatus,
       payDate: payDate || undefined,
       reference: reference || undefined,
       notes: notes || undefined,
@@ -88,7 +93,7 @@ export async function createPayrollRecord(formData: FormData) {
   });
 
   revalidatePath("/payroll");
-  return { success: true, id: created.id } as const;
+  return { success: true, id: created.id };
 }
 
 export async function listPayrollRecords() {

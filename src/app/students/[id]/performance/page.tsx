@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/db";
 
-export default async function StudentPerformance({ params }: { params: { id: string } }) {
-  const records = await prisma.academicRecord.findMany({ where: { studentId: params.id }, orderBy: { createdAt: "desc" } });
+export default async function StudentPerformance({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const records = await prisma.academicRecord.findMany({ where: { studentId: id }, orderBy: { createdAt: "desc" } });
   return (
     <section className="space-y-4">
       <div className="overflow-x-auto">

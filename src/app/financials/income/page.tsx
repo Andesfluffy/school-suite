@@ -38,12 +38,13 @@ function statusTone(status?: string | null) {
 export default async function IncomePage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const category = (searchParams.category as string) || "";
-  const status = (searchParams.status as string) || "";
-  const from = (searchParams.from as string) || "";
-  const to = (searchParams.to as string) || "";
+  const resolvedParams = await searchParams;
+  const category = (resolvedParams.category as string) || "";
+  const status = (resolvedParams.status as string) || "";
+  const from = (resolvedParams.from as string) || "";
+  const to = (resolvedParams.to as string) || "";
 
   const entries = await listFinancialEntries("income", {
     category: category || undefined,

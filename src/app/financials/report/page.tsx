@@ -1,9 +1,14 @@
 import { listFinancialEntries } from "../actions";
 import PrintButton from "@/components/PrintButton";
 
-export default async function FinancialReportPage({ searchParams }: { searchParams: { [k: string]: string | string[] | undefined } }) {
-  const from = (searchParams.from as string) || "";
-  const to = (searchParams.to as string) || "";
+export default async function FinancialReportPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [k: string]: string | string[] | undefined }>;
+}) {
+  const resolvedParams = await searchParams;
+  const from = (resolvedParams.from as string) || "";
+  const to = (resolvedParams.to as string) || "";
   const [income, expenses] = await Promise.all([
     listFinancialEntries("income", { from: from || undefined, to: to || undefined }),
     listFinancialEntries("expense", { from: from || undefined, to: to || undefined }),

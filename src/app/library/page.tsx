@@ -105,11 +105,14 @@ export default async function LibraryPage() {
                       <div className="font-medium text-white">{asset.title}</div>
                       {Array.isArray(asset.tags) && asset.tags.length ? (
                         <div className="mt-1 flex flex-wrap gap-1 text-xs text-white/50">
-                          {asset.tags.map((tag) => (
-                            <span key={`${asset.id}-${tag}`} className="rounded-full border border-white/10 px-2 py-0.5">
-                              {tag}
-                            </span>
-                          ))}
+                          {asset.tags.map((tag) => {
+                            const label = String(tag);
+                            return (
+                              <span key={`${asset.id}-${label}`} className="rounded-full border border-white/10 px-2 py-0.5">
+                                {label}
+                              </span>
+                            );
+                          })}
                         </div>
                       ) : null}
                     </td>

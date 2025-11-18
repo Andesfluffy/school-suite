@@ -1,5 +1,6 @@
 "use server";
 
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { EventInputSchema } from "@/lib/validation";
 import { revalidatePath } from "next/cache";
@@ -11,12 +12,12 @@ async function ensureSession() {
 }
 
 function normaliseAudience(audience?: string | null) {
-  if (!audience) return undefined;
+  if (!audience) return Prisma.JsonNull;
   const entries = audience
     .split(",")
     .map((value) => value.trim())
     .filter(Boolean);
-  return entries.length ? entries : undefined;
+  return entries.length ? entries : Prisma.JsonNull;
 }
 
 function toIsoString(value: string) {
@@ -78,7 +79,7 @@ export async function updateEvent(id: string, formData: FormData) {
       title,
       date: toIsoString(date),
       description: description || undefined,
-      audience: normaliseAudience(audience) ?? null,
+      audience: normaliseAudience(audience),
     },
   });
 

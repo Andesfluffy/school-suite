@@ -46,7 +46,7 @@ type EventFormProps = {
 export default function EventForm({ action, initial, redirectTo, submitLabel = "Save" }: EventFormProps) {
   const router = useRouter();
   const toast = useToast();
-  const [state, formAction, pending] = useActionState<ActionResult | null>(async (_prev, formData: FormData) => {
+  const [state, formAction, pending] = useActionState<ActionResult | null, FormData>(async (_prev, formData) => {
     const response = await action(formData);
     if (response.success) {
       toast.addToast({ title: "Saved", description: "Event saved successfully", variant: "success" });
