@@ -4,6 +4,7 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { AUTH_SIGN_IN_PATH } from "@/lib/routes";
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -70,7 +71,7 @@ export default function Hero() {
           className="flex flex-wrap gap-3"
         >
           <Link
-            href="/auth/sign-in"
+            href={AUTH_SIGN_IN_PATH}
             className="rounded-full bg-[var(--brand)] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[rgba(217,4,41,0.35)] transition hover:bg-[var(--brand-500)]"
           >
             School login · Google Workspace

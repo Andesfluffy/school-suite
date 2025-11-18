@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import type { ReactNode } from "react";
 import { useAuth } from "./AuthProvider";
+import { AUTH_SIGN_IN_PATH } from "@/lib/routes";
 
 export default function RequireAuth({
   children,
@@ -71,7 +72,7 @@ export default function RequireAuth({
               </button>
             )}
             <Link
-              href="/auth/sign-in"
+              href={AUTH_SIGN_IN_PATH}
               className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
             >
               View access details
