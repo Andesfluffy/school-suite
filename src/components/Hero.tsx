@@ -13,7 +13,7 @@ export default function Hero() {
   const bg = useTransform([mx, my] as const, ([x, y]) => {
     const xPct = Math.round(Number(x ?? 0) * 100);
     const yPct = Math.round(Number(y ?? 0) * 100);
-    return `radial-gradient(80rem 50rem at ${xPct}% ${yPct}%, rgba(217,4,41,0.24), transparent 60%)`;
+    return `radial-gradient(80rem 50rem at ${xPct}% ${yPct}%, rgba(var(--brand-rgb),0.24), transparent 60%)`;
   });
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function Hero() {
 
       <div className="relative z-10 max-w-2xl space-y-6">
         <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.28em] text-white/60">
-          <span className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_12px_rgba(217,4,41,0.8)]" aria-hidden />
+          <span className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_12px_rgba(var(--brand-rgb),0.8)]" aria-hidden />
           Accredited school release
         </div>
         <motion.h1
@@ -72,7 +72,7 @@ export default function Hero() {
         >
           <Link
             href={AUTH_SIGN_IN_PATH}
-            className="rounded-full bg-[var(--brand)] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[rgba(217,4,41,0.35)] transition hover:bg-[var(--brand-500)]"
+            className="rounded-full bg-[var(--brand)] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[rgba(var(--brand-rgb),0.35)] transition hover:bg-[var(--brand-500)]"
           >
             School login · Google Workspace
           </Link>

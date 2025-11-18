@@ -26,56 +26,56 @@ const links: LinkConfig[] = [
     title: "Students",
     desc: "Admissions, welfare, guardians, and fees in one cockpit",
     icon: (props) => <StudentsIcon className={props.className} />,
-    accent: "from-[#3a0d12] via-[#4b0f16] to-[#140203]",
+    accent: "from-[#2c1e25] via-[#3a2831] to-[#130a0e]",
   },
   {
     href: "/staff",
     title: "Staff",
     desc: "Contracts, career paths, reviews, and payroll cadences",
     icon: (props) => <StaffIcon className={props.className} />,
-    accent: "from-[#231403] via-[#3c2409] to-[#0f0601]",
+    accent: "from-[#1a2820] via-[#243327] to-[#0c120e]",
   },
   {
     href: "/performance",
     title: "Performance",
     desc: "Assessments, attendance, clubs, and interventions",
     icon: (props) => <PerformanceIcon className={props.className} />,
-    accent: "from-[#071523] via-[#0c2133] to-[#02060a]",
+    accent: "from-[#1a2533] via-[#233445] to-[#0c1118]",
   },
   {
     href: "/library",
     title: "E-Library",
     desc: "Lecture notes, schemes of work, media, and past questions",
     icon: (props) => <LibraryIcon className={props.className} />,
-    accent: "from-[#280820] via-[#3a0c2d] to-[#0f0209]",
+    accent: "from-[#2b1f2a] via-[#3a2c37] to-[#150e16]",
   },
   {
     href: "/question-bank",
     title: "Question bank",
     desc: "Stage mid-terms, exams, and CA scripts before release",
     icon: (props) => <QuestionBankIcon className={props.className} />,
-    accent: "from-[#051530] via-[#0a2250] to-[#01060d]",
+    accent: "from-[#1a2f3c] via-[#2a4458] to-[#0d1620]",
   },
   {
     href: "/events",
     title: "Events",
     desc: "Ceremonies, fixtures, notices, and community moments",
     icon: (props) => <EventsIcon className={props.className} />,
-    accent: "from-[#151032] via-[#1f1846] to-[#06030f]",
+    accent: "from-[#20253b] via-[#2f3350] to-[#0f121e]",
   },
   {
     href: "/financials",
     title: "Financials",
     desc: "Revenue, expenses, cashflow, and audit-ready ledgers",
     icon: (props) => <FinancialsIcon className={props.className} />,
-    accent: "from-[#03271b] via-[#06402b] to-[#010b07]",
+    accent: "from-[#162b23] via-[#1f3a2f] to-[#0a1410]",
   },
   {
     href: "/payroll",
     title: "Payroll",
     desc: "Generate payslips, track allowances, and confirm payout status",
     icon: (props) => <PayrollIcon className={props.className} />,
-    accent: "from-[#022415] via-[#0b3b24] to-[#010a05]",
+    accent: "from-[#142922] via-[#1f3b32] to-[#0a1411]",
   },
 ];
 
@@ -87,7 +87,7 @@ export default function QuickLinks() {
           <Reveal key={c.href} delay={i * 50}>
             <Link
               href={c.href}
-              className="group relative flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-[#0b0b0b] p-5 transition-all hover:-translate-y-0.5 hover:border-[var(--brand)]/60 hover:shadow-[0_24px_70px_-30px_rgba(217,4,41,0.55)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]"
+              className="group relative flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-[#0f1416] p-5 transition-all hover:-translate-y-0.5 hover:border-[var(--brand)]/60 hover:shadow-[0_24px_70px_-30px_rgba(var(--brand-rgb),0.55)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]"
               aria-label={`${c.title}: ${c.desc}`}
             >
               <div className={`absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100`}>

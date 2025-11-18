@@ -4,7 +4,7 @@ import { AUTH_SIGN_IN_PATH } from "@/lib/routes";
 export default function CTA() {
   return (
     <section className="mt-12">
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-r from-[#1a0106] via-[#2a0008] to-[#060606] p-8 md:p-12 text-white shadow-[0_20px_60px_-30px_rgba(217,4,41,0.7)]">
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-r from-[#0f1b17] via-[#1f2c27] to-[#0b1110] p-8 md:p-12 text-white shadow-[0_20px_60px_-30px_rgba(var(--brand-rgb),0.7)]">
         <div className="max-w-3xl space-y-4">
           <p className="text-xs uppercase tracking-[0.32em] text-white/50">Ready when you are</p>
           <h2 className="font-display text-[clamp(1.6rem,2.6vw,2.3rem)] font-semibold">White-glove rollout for your leadership team</h2>

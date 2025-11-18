@@ -32,13 +32,13 @@ export const metadata: Metadata = {
 
 export default function SignInPage() {
   return (
-    <section className="relative isolate overflow-hidden rounded-3xl border border-white/10 bg-[#080808]/95 px-6 py-12 text-white shadow-[0_32px_120px_-60px_rgba(217,4,41,0.6)] sm:px-10 lg:px-14">
+    <section className="relative isolate overflow-hidden rounded-3xl border border-white/10 bg-[#0e1314]/95 px-6 py-12 text-white shadow-[0_32px_120px_-60px_rgba(var(--brand-rgb),0.6)] sm:px-10 lg:px-14">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(110rem_90rem_at_12%_18%,rgba(217,4,41,0.22),transparent)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(110rem_90rem_at_12%_18%,rgba(var(--brand-rgb),0.22),transparent)]"
       />
       <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#2a0008]/45 via-transparent to-transparent"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#1b2d24]/45 via-transparent to-transparent"
         aria-hidden
       />
       <div
@@ -50,7 +50,7 @@ export default function SignInPage() {
         <div className="space-y-8">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.32em] text-white/60">
             <span
-              className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_12px_rgba(217,4,41,0.8)]"
+              className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_12px_rgba(var(--brand-rgb),0.8)]"
               aria-hidden
             />
             Brand-Stone School Suite
@@ -71,7 +71,7 @@ export default function SignInPage() {
             {highlights.map((item) => (
               <div
                 key={item.title}
-                className="group rounded-2xl border border-white/10 bg-black/30 p-4 transition hover:border-[var(--brand)]/60 hover:shadow-[0_24px_60px_-35px_rgba(217,4,41,0.55)]"
+                className="group rounded-2xl border border-white/10 bg-black/30 p-4 transition hover:border-[var(--brand)]/60 hover:shadow-[0_24px_60px_-35px_rgba(var(--brand-rgb),0.55)]"
               >
                 <dt className="font-semibold text-white">{item.title}</dt>
                 <dd className="mt-2 text-xs text-white/60 sm:text-sm sm:text-white/70">
@@ -95,7 +95,7 @@ export default function SignInPage() {
         </div>
 
         <div className="flex justify-end">
-          <div className="w-full max-w-md rounded-[28px] border border-white/10 bg-black/40 p-1 shadow-[0_24px_80px_-60px_rgba(217,4,41,0.8)] backdrop-blur">
+          <div className="w-full max-w-md rounded-[28px] border border-white/10 bg-black/40 p-1 shadow-[0_24px_80px_-60px_rgba(var(--brand-rgb),0.8)] backdrop-blur">
             <SignInCard />
           </div>
         </div>

@@ -22,16 +22,16 @@ export default function HomeWelcome() {
   }, [user?.name]);
 
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a0a]/95 p-8 text-white shadow-[0_32px_120px_-60px_rgba(217,4,41,0.6)] sm:p-10 lg:p-12">
+    <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0e1314]/95 p-8 text-white shadow-[0_32px_120px_-60px_rgba(var(--brand-rgb),0.6)] sm:p-10 lg:p-12">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(110rem_90rem_at_10%_20%,rgba(217,4,41,0.18),transparent)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(110rem_90rem_at_10%_20%,rgba(var(--brand-rgb),0.18),transparent)]"
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#2a0008]/40 via-transparent to-transparent" aria-hidden />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#1b2d24]/40 via-transparent to-transparent" aria-hidden />
       <div className="relative flex flex-col gap-10 lg:flex-row lg:items-center">
         <div className="flex-1 space-y-6">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.28em] text-white/60">
-            <span className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_10px_rgba(217,4,41,0.8)]" aria-hidden />
+            <span className="h-2 w-2 rounded-full bg-[var(--brand)] shadow-[0_0_10px_rgba(var(--brand-rgb),0.8)]" aria-hidden />
             School control center
           </div>
           <h1 className="font-display text-3xl font-semibold leading-tight sm:text-4xl">Welcome back, {greetingName}.</h1>
@@ -57,7 +57,7 @@ export default function HomeWelcome() {
           {snapshots.map((item) => (
             <div
               key={item.label}
-              className="group overflow-hidden rounded-2xl border border-white/10 bg-black/30 p-4 transition hover:border-[var(--brand)]/60 hover:shadow-[0_24px_60px_-35px_rgba(217,4,41,0.55)]"
+              className="group overflow-hidden rounded-2xl border border-white/10 bg-black/30 p-4 transition hover:border-[var(--brand)]/60 hover:shadow-[0_24px_60px_-35px_rgba(var(--brand-rgb),0.55)]"
             >
               <div className="text-[11px] uppercase tracking-[0.28em] text-white/45">{item.label}</div>
               <div className="mt-3 text-2xl font-semibold text-white">{item.value}</div>

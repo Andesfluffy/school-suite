@@ -35,7 +35,7 @@ export default function DeliveryPlan() {
     <section id="delivery" className="mt-16">
       <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr]">
         <Reveal>
-          <div className="rounded-3xl border border-white/10 bg-[#0b0b0b]/90 p-8 shadow-[0_28px_90px_-45px_rgba(217,4,41,0.55)]">
+          <div className="rounded-3xl border border-white/10 bg-[#0f1416]/90 p-8 shadow-[0_28px_90px_-45px_rgba(var(--brand-rgb),0.55)]">
             <p className="text-xs uppercase tracking-[0.32em] text-white/40">What is live today</p>
             <h2 className="mt-3 font-display text-2xl font-semibold text-white">Foundation locked in</h2>
             <p className="mt-3 text-sm text-white/70">
@@ -57,7 +57,7 @@ export default function DeliveryPlan() {
           </div>
         </Reveal>
         <Reveal delay={80}>
-          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#120205]/90 via-[#18050a]/85 to-[#050505]/90 p-8">
+          <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-[#12211a]/90 via-[#1a2e24]/85 to-[#0b1110]/90 p-8">
             <p className="text-xs uppercase tracking-[0.32em] text-white/40">How we go further</p>
             <h2 className="mt-3 font-display text-2xl font-semibold text-white">Next moves for a pristine rollout</h2>
             <p className="mt-3 text-sm text-white/70">
