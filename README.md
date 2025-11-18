@@ -23,8 +23,9 @@ Create a Firebase project and enable Google sign-in in Authentication → Sign-i
 
 Generate a Web App within Firebase and copy the configuration keys.
 
-Provide environment variables in a .env.local file. The first three are required for authentication; the rest are optional and can be configured later:
+Provide environment variables in a .env.local file (or copy .env.example). The first three Firebase keys are required for authentication; the rest are optional and can be configured later. The Prisma database connection string is required before running migrations or starting the app:
 
+DATABASE_URL="file:./prisma/dev.db"
 NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
@@ -34,6 +35,15 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
 # Optional: lock sign-in to a specific Google Workspace domain
 NEXT_PUBLIC_GOOGLE_WORKSPACE_DOMAIN=brandstone.edu
+
+
+Create and migrate the database (requires DATABASE_URL):
+
+pnpm prisma migrate dev
+
+Optionally seed demo data so the dashboards have example schools, staff, and students:
+
+pnpm prisma db seed
 
 
 Start the development server:
