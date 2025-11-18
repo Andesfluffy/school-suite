@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
+import { LibraryFormat, LibraryResourceType } from "@prisma/client";
 import { LibraryAssetInputSchema } from "@/lib/validation";
 import { requireSchoolSession } from "@/lib/auth/server-session";
 
@@ -34,8 +35,8 @@ export async function createLibraryAsset(formData: FormData) {
       title,
       subject,
       level: level || undefined,
-      resourceType,
-      format,
+      resourceType: resourceType as LibraryResourceType,
+      format: format as LibraryFormat,
       description: description || undefined,
       fileUrl: fileUrl || undefined,
       tags: parseTags(tags || undefined),

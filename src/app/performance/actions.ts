@@ -3,10 +3,10 @@
 import { prisma } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { AcademicInputSchema } from "@/lib/validation";
-import type { AcademicRecord, Student } from "@/lib/mock-data";
+import type { Prisma } from "@prisma/client";
 import { requireSchoolSession } from "@/lib/auth/server-session";
 
-export type AcademicRecordWithStudent = AcademicRecord & { student?: Student | null };
+export type AcademicRecordWithStudent = Prisma.AcademicRecordGetPayload<{ include: { student: true } }>;
 
 async function ensureSession() {
   await requireSchoolSession();
@@ -41,7 +41,7 @@ export async function listAcademicRecords(): Promise<AcademicRecordWithStudent[]
     include: { student: true },
     orderBy: { createdAt: "desc" },
   });
-  return records as AcademicRecordWithStudent[];
+  return records;
 }
 
 export async function performanceDashboard() {

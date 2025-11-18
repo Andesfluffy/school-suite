@@ -5,11 +5,33 @@ import PageHeader from "@/components/PageHeader";
 
 export default async function StaffPage() {
   const staff = await listStaff();
-  const total = staff.length;
-  const active = staff.filter((member) => member.status === "active").length;
-  const academic = staff.filter((member) => member.role === "academic").length;
-  const payroll = staff.reduce((sum, member) => sum + (Number(member.salary) || 0), 0);
-  const sanctions = staff.filter((member) => Boolean(member.sanction)).length;
+  const normalisedStaff = staff.map((member) => ({
+    ...member,
+    dob: member.dob ?? undefined,
+    phone: member.phone ?? undefined,
+    photoUrl: member.photoUrl ?? undefined,
+    stateOfOrigin: member.stateOfOrigin ?? undefined,
+    disabilities: Array.isArray(member.disabilities)
+      ? (member.disabilities as unknown[]).map((value) => String(value))
+      : undefined,
+    rank: member.rank ?? undefined,
+    salary: member.salary ?? undefined,
+    subjects: Array.isArray(member.subjects)
+      ? (member.subjects as unknown[]).map((value) => String(value))
+      : undefined,
+    department: member.department ?? undefined,
+    sanction: member.sanction ?? undefined,
+    clubs: Array.isArray(member.clubs)
+      ? (member.clubs as unknown[]).map((value) => String(value))
+      : undefined,
+    qualification: member.qualification ?? undefined,
+  }));
+
+  const total = normalisedStaff.length;
+  const active = normalisedStaff.filter((member) => member.status === "active").length;
+  const academic = normalisedStaff.filter((member) => member.role === "academic").length;
+  const payroll = normalisedStaff.reduce((sum, member) => sum + (Number(member.salary) || 0), 0);
+  const sanctions = normalisedStaff.filter((member) => Boolean(member.sanction)).length;
   return (
     <section className="space-y-8">
       <PageHeader
@@ -66,7 +88,7 @@ export default async function StaffPage() {
           Add staff record
         </Link>
       </div>
-      <StaffListClient staff={staff} />
+      <StaffListClient staff={normalisedStaff} />
     </section>
   );
 }

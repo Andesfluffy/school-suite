@@ -28,8 +28,9 @@ function formatDate(value: string | null | undefined) {
   } as const;
 }
 
-export default async function EventDetailPage({ params }: { params: { id: string } }) {
-  const event = await getEvent(params.id);
+export default async function EventDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const event = await getEvent(id);
 
   if (!event) {
     return <div className="text-sm">Event not found.</div>;
@@ -42,10 +43,10 @@ export default async function EventDetailPage({ params }: { params: { id: string
       <div className="card space-y-4 p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-2">
-            <h1 className="text-2xl font-semibold">{event.title}</h1>
+            <h1 className="text-2xl font-semibold text-[var(--ink)]">{event.title}</h1>
             {formatted ? (
-              <div className="flex flex-wrap items-center gap-3 text-sm text-white/70">
-                <span className="font-medium text-white">{formatted.dateLabel}</span>
+              <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--slate-600)]">
+                <span className="font-medium text-[var(--ink)]">{formatted.dateLabel}</span>
                 <span>•</span>
                 <span>{formatted.timeLabel}</span>
                 <Badge color={formatted.status === "upcoming" ? "green" : "blue"}>
@@ -63,21 +64,24 @@ export default async function EventDetailPage({ params }: { params: { id: string
             </form>
           </div>
         </div>
-        <div className="text-sm leading-relaxed text-white/80">
+        <div className="text-sm leading-relaxed text-[var(--slate-600)]">
           {event.description ? event.description : "No description provided for this event."}
         </div>
         {Array.isArray(event.audience) && event.audience.length ? (
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-white/40">Audience</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-[var(--slate-500)]">Audience</div>
             <div className="mt-2 flex flex-wrap gap-2">
-              {event.audience.map((value) => (
+              {event.audience.map((value) => {
+                const label = String(value);
+                return (
                 <span
-                  key={value}
-                  className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs text-white/70"
+                  key={label}
+                  className="inline-flex items-center rounded-full border border-[var(--border)] bg-[var(--muted)] px-3 py-1 text-xs text-[var(--slate-600)]"
                 >
-                  {value}
+                  {label}
                 </span>
-              ))}
+                );
+              })}
             </div>
           </div>
         ) : null}

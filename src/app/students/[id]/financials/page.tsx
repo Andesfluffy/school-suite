@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/db";
 
-export default async function StudentFinancials({ params }: { params: { id: string } }) {
-  const entries = await prisma.financialEntry.findMany({ where: { studentId: params.id }, orderBy: { date: "desc" } });
+export default async function StudentFinancials({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const entries = await prisma.financialEntry.findMany({ where: { studentId: id }, orderBy: { date: "desc" } });
   const totalIncome = entries.filter(e => e.type === "income").reduce((s, e) => s + Number(e.amount), 0);
   const totalExpense = entries.filter(e => e.type === "expense").reduce((s, e) => s + Number(e.amount), 0);
   return (

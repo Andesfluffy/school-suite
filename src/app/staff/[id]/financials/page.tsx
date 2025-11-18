@@ -1,9 +1,10 @@
 import { prisma } from "@/lib/db";
 
-export default async function StaffFinancials({ params }: { params: { id: string } }) {
-  const entries = await prisma.financialEntry.findMany({ where: { staffId: params.id }, orderBy: { date: "desc" } });
-  const totalIncome = entries.filter(e => e.type === "income").reduce((s, e) => s + Number(e.amount), 0);
-  const totalExpense = entries.filter(e => e.type === "expense").reduce((s, e) => s + Number(e.amount), 0);
+export default async function StaffFinancials({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const entries = await prisma.financialEntry.findMany({ where: { staffId: id }, orderBy: { date: "desc" } });
+  const totalIncome = entries.filter((e) => e.type === "income").reduce((s, e) => s + Number(e.amount), 0);
+  const totalExpense = entries.filter((e) => e.type === "expense").reduce((s, e) => s + Number(e.amount), 0);
   return (
     <section className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

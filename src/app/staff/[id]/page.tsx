@@ -5,9 +5,12 @@ import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import { Tabs } from "@/components/ui/Tabs";
 
-export default async function StaffDetail({ params }: { params: { id: string } }) {
-  const staff = await getStaff(params.id);
+export default async function StaffDetail({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const staff = await getStaff(id);
   if (!staff) return <div className="text-sm">Staff not found.</div>;
+
+  const clubs = Array.isArray(staff.clubs) ? staff.clubs.map((value) => String(value)) : null;
 
   return (
     <section className="space-y-4">
@@ -43,7 +46,7 @@ export default async function StaffDetail({ params }: { params: { id: string } }
         <div><span className="text-gray-500">Department:</span> {staff.department || "—"}</div>
         <div><span className="text-gray-500">Rank:</span> {staff.rank || "—"}</div>
         <div><span className="text-gray-500">Salary:</span> {staff.salary ?? "—"}</div>
-        <div><span className="text-gray-500">Clubs:</span> {staff.clubs?.join(", ") || "—"}</div>
+        <div><span className="text-gray-500">Clubs:</span> {clubs?.join(", ") || "—"}</div>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 "use server";
 
+import { Prisma, StaffRole, Status } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -39,7 +40,7 @@ export async function createStaff(formData: FormData) {
   const created = await prisma.staff.create({
     data: {
       name,
-      status,
+      status: status as Status,
       dob: dob || undefined,
       phone: phone || undefined,
       photoUrl: photoUrl || undefined,
@@ -47,7 +48,7 @@ export async function createStaff(formData: FormData) {
       disabilities: disabilities ? disabilities.split(",").map((s) => s.trim()).filter(Boolean) : undefined,
       rank: rank || undefined,
       salary: salary ? Number(salary) : undefined,
-      role,
+      role: role as StaffRole,
       subjects: subjects ? subjects.split(",").map((s) => s.trim()).filter(Boolean) : undefined,
       department: department || undefined,
       sanction: sanction || undefined,
@@ -99,19 +100,28 @@ export async function updateStaff(id: string, formData: FormData) {
     where: { id },
     data: {
       name,
-      status,
+      status: status as Status,
       dob: dob || undefined,
       phone: phone || undefined,
       photoUrl: photoUrl || undefined,
       stateOfOrigin: stateOfOrigin || undefined,
-      disabilities: disabilities ? disabilities.split(",").map((s) => s.trim()).filter(Boolean) : null,
+      disabilities:
+        disabilities && disabilities.trim()
+          ? disabilities.split(",").map((s) => s.trim()).filter(Boolean)
+          : Prisma.JsonNull,
       rank: rank || undefined,
       salary: salary ? Number(salary) : null,
-      role,
-      subjects: subjects ? subjects.split(",").map((s) => s.trim()).filter(Boolean) : null,
+      role: role as StaffRole,
+      subjects:
+        subjects && subjects.trim()
+          ? subjects.split(",").map((s) => s.trim()).filter(Boolean)
+          : Prisma.JsonNull,
       department: department || undefined,
       sanction: sanction || undefined,
-      clubs: clubs ? clubs.split(",").map((s) => s.trim()).filter(Boolean) : null,
+      clubs:
+        clubs && clubs.trim()
+          ? clubs.split(",").map((s) => s.trim()).filter(Boolean)
+          : Prisma.JsonNull,
       qualification: qualification || undefined,
     },
   });

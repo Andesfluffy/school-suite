@@ -1,10 +1,10 @@
 import { z } from "zod";
 
+const requiredEnum = <T extends [string, ...string[]]>(values: T, message: string) => z.enum(values, { message });
+
 export const StudentInputSchema = z.object({
   name: z.string().trim().min(1, "Name is required"),
-  status: z.enum(["active", "inactive", "suspended", "graduated"], {
-    required_error: "Status is required",
-  }),
+  status: requiredEnum(["active", "inactive", "suspended", "graduated"], "Status is required"),
   dob: z.string().trim().optional().or(z.literal("")),
   photoUrl: z.string().url().optional().or(z.literal("")),
   guardianName: z.string().trim().optional().or(z.literal("")),
@@ -20,9 +20,7 @@ export type StudentInput = z.infer<typeof StudentInputSchema>;
 
 export const StaffInputSchema = z.object({
   name: z.string().trim().min(1, "Name is required"),
-  status: z.enum(["active", "inactive", "suspended", "retired"], {
-    required_error: "Status is required",
-  }),
+  status: requiredEnum(["active", "inactive", "suspended", "retired"], "Status is required"),
   dob: z.string().trim().optional().or(z.literal("")),
   phone: z.string().trim().optional().or(z.literal("")),
   photoUrl: z.string().url().optional().or(z.literal("")),
@@ -30,7 +28,7 @@ export const StaffInputSchema = z.object({
   disabilities: z.string().optional().or(z.literal("")),
   rank: z.string().trim().optional().or(z.literal("")),
   salary: z.string().trim().optional().or(z.literal("")),
-  role: z.enum(["academic", "admin"], { required_error: "Role is required" }),
+  role: requiredEnum(["academic", "admin"], "Role is required"),
   subjects: z.string().optional().or(z.literal("")),
   department: z.string().trim().optional().or(z.literal("")),
   sanction: z.string().trim().optional().or(z.literal("")),
@@ -116,12 +114,11 @@ export const LibraryAssetInputSchema = z.object({
   title: z.string().trim().min(1, "Title is required"),
   subject: z.string().trim().min(1, "Subject is required"),
   level: z.string().trim().optional().or(z.literal("")),
-  resourceType: z.enum(["lecture_note", "scheme_of_work", "reading", "past_question", "media"], {
-    required_error: "Resource type is required",
-  }),
-  format: z.enum(["pdf", "docx", "presentation", "spreadsheet", "video", "audio", "link"], {
-    required_error: "Format is required",
-  }),
+  resourceType: requiredEnum(
+    ["lecture_note", "scheme_of_work", "reading", "past_question", "media"],
+    "Resource type is required",
+  ),
+  format: requiredEnum(["pdf", "docx", "presentation", "spreadsheet", "video", "audio", "link"], "Format is required"),
   description: z.string().optional().or(z.literal("")),
   fileUrl: z.string().trim().optional().or(z.literal("")).refine((value) => {
     if (!value) return true;
@@ -218,7 +215,7 @@ export const PayrollInputSchema = z.object({
     }),
   allowances: z.string().optional().or(z.literal("")),
   deductions: z.string().optional().or(z.literal("")),
-  status: z.enum(["draft", "processed", "issued", "paid"], { required_error: "Status is required" }),
+  status: requiredEnum(["draft", "processed", "issued", "paid"], "Status is required"),
   payDate: z
     .string()
     .optional()

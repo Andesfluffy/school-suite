@@ -156,7 +156,7 @@ export async function POST(request: Request) {
     if (existing.email !== normalisedEmail) {
       await updateMembershipContact(existing.id, normalisedEmail);
     }
-    setSchoolSessionCookie({ uid: verifiedUid, membershipId: existing.id });
+    await setSchoolSessionCookie({ uid: verifiedUid, membershipId: existing.id });
     return NextResponse.json(buildResponse({ ...existing, email: normalisedEmail }));
   }
 
@@ -192,11 +192,11 @@ export async function POST(request: Request) {
     schoolId: school.id,
     role: role ?? "admin",
   });
-  setSchoolSessionCookie({ uid: verifiedUid, membershipId: created.id });
+  await setSchoolSessionCookie({ uid: verifiedUid, membershipId: created.id });
   return NextResponse.json(buildResponse(created));
 }
 
 export async function DELETE() {
-  clearSchoolSessionCookie();
+  await clearSchoolSessionCookie();
   return NextResponse.json({ success: true });
 }

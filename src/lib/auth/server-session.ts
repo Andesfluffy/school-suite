@@ -41,7 +41,8 @@ function ensureSignInRouteExists() {
 export type SchoolSession = SchoolMembershipWithSchool;
 
 export async function getSchoolSessionFromCookie(): Promise<SchoolSession | null> {
-  const cookie = cookies().get(SESSION_COOKIE)?.value;
+  const cookieStore = await cookies();
+  const cookie = cookieStore.get(SESSION_COOKIE)?.value;
   const payload = parseCookie(cookie);
   if (!payload) {
     return null;
@@ -69,7 +70,8 @@ export async function requireSchoolSession(
     return session;
   }
 
-  const currentPath = options.currentPath ?? headers().get("next-url") ?? headers().get("referer") ?? null;
+  const headerStore = await headers();
+  const currentPath = options.currentPath ?? headerStore.get("next-url") ?? headerStore.get("referer") ?? null;
   if (options.allowUnauthenticated || isPublicPath(currentPath)) {
     return null;
   }
@@ -78,8 +80,9 @@ export async function requireSchoolSession(
   redirect(AUTH_SIGN_IN_PATH);
 }
 
-export function setSchoolSessionCookie(payload: SessionCookiePayload) {
-  cookies().set({
+export async function setSchoolSessionCookie(payload: SessionCookiePayload) {
+  const cookieStore = await cookies();
+  cookieStore.set({
     name: SESSION_COOKIE,
     value: JSON.stringify(payload),
     httpOnly: true,
@@ -90,6 +93,7 @@ export function setSchoolSessionCookie(payload: SessionCookiePayload) {
   });
 }
 
-export function clearSchoolSessionCookie() {
-  cookies().delete(SESSION_COOKIE);
+export async function clearSchoolSessionCookie() {
+  const cookieStore = await cookies();
+  cookieStore.delete(SESSION_COOKIE);
 }
