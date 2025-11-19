@@ -1,6 +1,5 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import Nav from "@/components/Nav";
 // ThemeMenu removed: single vibrant theme only
 import ToastProvider from "@/components/ToastProvider";
 import AppFrame from "@/components/AppFrame";
@@ -34,8 +33,6 @@ export default function RootLayout({
             <a className="skip-link" href="#content">
               Skip to content
             </a>
-
-            <Nav />
 
             <main id="content" className="flex-1">
               <AppFrame>{children}</AppFrame>
